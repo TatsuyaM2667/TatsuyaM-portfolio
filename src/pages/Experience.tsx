@@ -1,12 +1,14 @@
 import React from 'react';
-import { portfolioData } from '../data/portfolioData';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Experience: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="page-experience">
       <p><span className="prompt">$</span>journalctl -u career.service</p>
       <div style={{ paddingLeft: '1rem', marginTop: '1rem' }}>
-        {portfolioData.experiences.map((exp, index) => (
+        {t.experiences.map((exp, index) => (
           <div key={index} style={{ marginBottom: '2rem', borderLeft: '2px solid var(--accent)', paddingLeft: '1rem' }}>
             <p style={{ color: 'var(--success)', fontWeight: 'bold' }}>
               [{exp.period}] INFO: {exp.role}
@@ -20,8 +22,8 @@ const Experience: React.FC = () => {
       </div>
 
       <p style={{ marginTop: '3rem' }}><span className="prompt">$</span>cat skills.json</p>
-      <pre style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-        {JSON.stringify(portfolioData.skills, null, 2)}
+      <pre style={{ fontSize: '0.9rem', marginTop: '0.5rem', backgroundColor: 'rgba(65, 72, 104, 0.5)' }}>
+        {JSON.stringify(t.skills, null, 2)}
       </pre>
     </div>
   );

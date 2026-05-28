@@ -1,7 +1,9 @@
 import React from 'react';
-import { portfolioData } from '../data/portfolioData';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Projects: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="page-projects">
       <p><span className="prompt">$</span>ls -la ~/projects</p>
@@ -15,7 +17,7 @@ const Projects: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {portfolioData.projects.map((project) => (
+            {t.projects.map((project) => (
               <tr key={project.name} style={{ borderBottom: '1px dotted var(--border)' }}>
                 <td style={{ padding: '0.5rem', fontFamily: 'monospace', color: 'var(--success)' }}>drwxr-xr-x</td>
                 <td style={{ padding: '0.5rem' }}>
@@ -31,10 +33,10 @@ const Projects: React.FC = () => {
           </tbody>
         </table>
 
-        {portfolioData.projects.map((project) => (
+        {t.projects.map((project) => (
           <div key={`${project.name}-desc`} style={{ marginTop: '2rem' }}>
             <p><span className="prompt">$</span>cat ~/projects/{project.name}/README.md</p>
-            <div style={{ padding: '1rem', background: 'var(--code-bg)', borderRadius: '4px', marginTop: '0.5rem' }}>
+            <div style={{ padding: '1rem', background: 'var(--code-bg)', borderRadius: '4px', marginTop: '0.5rem', backgroundColor: 'rgba(65, 72, 104, 0.5)' }}>
               <p>{project.desc}</p>
             </div>
           </div>

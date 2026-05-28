@@ -62,21 +62,24 @@ pre {
 }
 
 .terminal-window {
-  background: #16161e;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  background: rgba(22, 22, 30, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
 .terminal-header {
-  background: #24283b;
-  padding: 8px 16px;
+  background: rgba(36, 40, 59, 0.8);
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .dot {
