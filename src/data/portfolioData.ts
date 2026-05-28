@@ -115,17 +115,11 @@ export const portfolioDataJp: PortfolioData = {
       desc: "物理部CTOとして受賞",
     },
   ],
-  publications: [
-    {
-      year: "2025",
-      title: "CanSatの開発とミッション解析",
-      publisher: "法政二高物理部紀要",
-    },
-  ],
+
   contact: {
     github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     email: "tatsuyamiura2667@gmail.com",
-    orcid: "https://orcid.org/0000-0000-0000-0000",
+    orcid: "https://orcid.org/0009-0007-5480-2657",
   },
 };
