@@ -11,9 +11,17 @@
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.terminal-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .terminal-nav button {
+  white-space: nowrap;
   background: rgba(65, 72, 104, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text);
@@ -79,6 +87,8 @@
   font-size: 0.9rem;
   border-left: 2px solid var(--border);
   padding-left: 1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 input::selection {
@@ -95,12 +105,33 @@ input::selection {
 
 @media (max-width: 600px) {
   .terminal-nav {
-    flex-direction: column;
-    gap: 0;
+    width: 100%;
   }
   
   .terminal-nav button {
-    border-radius: 0;
-    text-align: left;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .terminal-title {
+    display: none;
+  }
+
+  .terminal-header {
+    padding: 10px 15px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+
+  .lang-switcher {
+    align-self: flex-end;
+  }
+
+  .terminal-content {
+    padding: 1rem !important;
   }
 }

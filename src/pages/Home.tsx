@@ -7,6 +7,19 @@ const Home: React.FC = () => {
 
   return (
     <div className="page-home" key={language}>
+      <div style={{ 
+        backgroundColor: "var(--accent-bg)", 
+        padding: "0.5rem 1rem", 
+        borderRadius: "8px", 
+        fontSize: "0.8rem", 
+        marginBottom: "1.5rem",
+        border: "1px solid var(--accent-border)",
+        color: "var(--accent)"
+      }}>
+        {language === "en" 
+          ? "💡 Tip: You can actually type commands! Try typing 'help' below." 
+          : "💡 ヒント: 実際にコマンドを入力できます！下の入力欄に 'help' と打ってみてください。"}
+      </div>
       <div
         style={{
           display: "flex",
@@ -29,13 +42,13 @@ const Home: React.FC = () => {
         <div>
           <p>
             <span className="prompt">$</span>
-            <Typewriter text="whoami" speed={50} />
+            <Typewriter text="whoami" speed={30} />
           </p>
           <h1 style={{ margin: 0 }}>
-            <Typewriter text={t.name} speed={100} delay={500} />
+            <Typewriter text={t.name} speed={70} delay={300} />
           </h1>
           <p style={{ color: "var(--accent)", fontSize: "1.2rem" }}>
-            <Typewriter text={t.role} delay={1500} speed={50} />
+            <Typewriter text={t.role} delay={1000} speed={40} />
           </p>
         </div>
       </div>
@@ -43,40 +56,40 @@ const Home: React.FC = () => {
       <section>
         <p>
           <span className="prompt">$</span>
-          <Typewriter text="cat bio.txt" speed={50} delay={2500} />
+          <Typewriter text="cat bio.txt" speed={30} delay={1800} />
         </p>
         <p
           style={{ paddingLeft: "1rem", borderLeft: "2px solid var(--border)" }}
         >
-          <Typewriter text={t.bio} delay={3200} speed={30} />
+          <Typewriter text={t.bio} delay={2200} speed={20} />
         </p>
       </section>
 
       <section style={{ marginTop: "2rem" }}>
         <p>
           <span className="prompt">$</span>
-          <Typewriter text="firstfetch" speed={50} delay={4500} />
+          <Typewriter text="firstfetch" speed={30} delay={3500} />
         </p>
         <div style={{ marginTop: "1rem" }}>
           <p>
             <strong>OS</strong>:{" "}
-            <Typewriter text="Arch Linux" delay={5200} speed={20} />
+            <Typewriter text="Arch Linux" delay={4000} speed={15} />
           </p>
           <p>
             <strong>Host</strong>:{" "}
             <Typewriter
               text={`${t.name}-IdeaPad Slim 3 14ARP10`}
-              delay={5500}
-              speed={20}
+              delay={4200}
+              speed={15}
             />
           </p>
           <p>
             <strong>Kernel</strong>:{" "}
-            <Typewriter text="Linux 6.18.33-1-lts" delay={5800} speed={20} />
+            <Typewriter text="Linux 6.18.33-1-lts" delay={4400} speed={15} />
           </p>
           <p>
             <strong>Shell</strong>:{" "}
-            <Typewriter text=" ghostty 1.3.1-arch2" delay={6100} speed={20} />
+            <Typewriter text=" ghostty 1.3.1-arch2" delay={4600} speed={15} />
           </p>
         </div>
       </section>
@@ -85,7 +98,7 @@ const Home: React.FC = () => {
         <section style={{ marginTop: "2rem" }}>
           <p>
             <span className="prompt">$</span>
-            <Typewriter text="cat education.md" speed={50} delay={6500} />
+            <Typewriter text="cat education.md" speed={30} delay={5000} />
           </p>
           <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
             {t.education.map((edu, index) => (
@@ -93,15 +106,15 @@ const Home: React.FC = () => {
                 <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
                   <Typewriter
                     text={`> ${edu.degree}`}
-                    delay={7000 + index * 500}
-                    speed={30}
+                    delay={5500 + index * 300}
+                    speed={25}
                   />
                 </p>
                 <p>
                   <Typewriter
                     text={`${edu.institution} | ${edu.period}`}
-                    delay={7500 + index * 500}
-                    speed={20}
+                    delay={5800 + index * 300}
+                    speed={15}
                   />
                 </p>
               </div>
@@ -114,7 +127,7 @@ const Home: React.FC = () => {
         <section style={{ marginTop: "2rem" }}>
           <p>
             <span className="prompt">$</span>
-            <Typewriter text="cat awards.md" speed={50} delay={8500} />
+            <Typewriter text="cat awards.md" speed={30} delay={7000} />
           </p>
           <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
             {t.awards.map((award, index) => (
@@ -122,15 +135,15 @@ const Home: React.FC = () => {
                 <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
                   <Typewriter
                     text={`* ${award.title}`}
-                    delay={9000 + index * 500}
-                    speed={30}
+                    delay={7500 + index * 300}
+                    speed={25}
                   />
                 </p>
                 <p>
                   <Typewriter
                     text={`${award.date}: ${award.desc}`}
-                    delay={9500 + index * 500}
-                    speed={20}
+                    delay={7800 + index * 300}
+                    speed={15}
                   />
                 </p>
               </div>
@@ -143,7 +156,7 @@ const Home: React.FC = () => {
         <section style={{ marginTop: "2rem" }}>
           <p>
             <span className="prompt">$</span>
-            <Typewriter text="cat publications.md" speed={50} delay={10500} />
+            <Typewriter text="cat publications.md" speed={30} delay={8500} />
           </p>
           <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
             {t.publications.map((pub, index) => (
@@ -151,15 +164,15 @@ const Home: React.FC = () => {
                 <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
                   <Typewriter
                     text={`- ${pub.title}`}
-                    delay={11000 + index * 500}
-                    speed={30}
+                    delay={9000 + index * 300}
+                    speed={25}
                   />
                 </p>
                 <p>
                   <Typewriter
                     text={`${pub.publisher} (${pub.year})`}
-                    delay={11500 + index * 500}
-                    speed={20}
+                    delay={9300 + index * 300}
+                    speed={15}
                   />
                 </p>
               </div>

@@ -24,66 +24,151 @@ function AppContent() {
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
-    const cmd = inputValue.trim().toLowerCase();
-    setCommandHistory((prev) => [...prev, `$ ${inputValue}`]);
+    const fullCmd = inputValue.trim();
+    if (!fullCmd) return;
+    
+    const cmd = fullCmd.toLowerCase();
+    const args = cmd.split(" ");
+    const baseCmd = args[0];
+    
+    setCommandHistory((prev) => [...prev, `$ ${fullCmd}`]);
 
-    if (cmd === "help") {
-      setCommandHistory((prev) => [
-        ...prev,
-        "Available commands: help, cd [page], ls, theme [name], clear, secret, date",
-      ]);
-    } else if (cmd.startsWith("cd ")) {
-      const page = cmd.split(" ")[1] as Page;
-      if (["home", "projects", "experience"].includes(page)) {
-        setCurrentPage(page);
+    switch (baseCmd) {
+      case "help":
         setCommandHistory((prev) => [
           ...prev,
-          `Changed directory to ~/${page}`,
+          "Available commands: help, cd [page], ls, whoami, firstfetch, cat [file], ssh, theme [name], clear, date, sl, sudo pacman, secret",
         ]);
-      } else {
-        setCommandHistory((prev) => [...prev, `Directory not found: ${page}`]);
-      }
-    } else if (cmd === "ls") {
-      setCommandHistory((prev) => [
-        ...prev,
-        "home  projects  experience  bio.txt  skills.json",
-      ]);
-    } else if (cmd.startsWith("theme ")) {
-      const newTheme = cmd.split(" ")[1];
-      if (["tokyo", "matrix", "dracula"].includes(newTheme)) {
-        setTheme(newTheme);
-        setCommandHistory((prev) => [...prev, `Theme changed to ${newTheme}`]);
-      } else {
+        break;
+      case "whoami":
         setCommandHistory((prev) => [
           ...prev,
-          "Available themes: tokyo, matrix, dracula",
+          `${t.name} - ${t.role}`,
         ]);
+        break;
+      case "ls":
+        setCommandHistory((prev) => [
+          ...prev,
+          "home/  projects/  experience/  bio.txt  skills.json  education.md  awards.md  publications.md",
+        ]);
+        break;
+      case "cd": {
+        const target = args[1]?.replace("/", "");
+        if (!target || target === "~" || target === "home") {
+          setCurrentPage("home");
+          setCommandHistory((prev) => [...prev, "Changed directory to ~/home"]);
+        } else if (["projects", "experience"].includes(target)) {
+          setCurrentPage(target as Page);
+          setCommandHistory((prev) => [...prev, `Changed directory to ~/${target}`]);
+        } else {
+          setCommandHistory((prev) => [...prev, `cd: no such directory: ${target}`]);
+        }
+        break;
       }
-    } else if (cmd === "clear") {
-      setCommandHistory([]);
-    } else if (cmd === "date") {
-      setCommandHistory((prev) => [...prev, new Date().toString()]);
-    } else if (cmd === "secret") {
-      setCommandHistory((prev) => [
-        ...prev,
-        "🔓 Achievement Unlocked: Terminal Master! 🚀",
-        "Try 'sudo rm -rf /' if you dare... (joking)",
-      ]);
-    } else if (cmd === "sudo rm -rf /") {
-      setCommandHistory((prev) => [
-        ...prev,
-        "⚠️ Nice try! I've already backed up the mainframe. 😎",
-      ]);
-    } else if (cmd !== "") {
-      setCommandHistory((prev) => [
-        ...prev,
-        `Command not found: ${cmd}. Type 'help' for assistance.`,
-      ]);
+      case "cat": {
+        const file = args[1];
+        if (file === "bio.txt") {
+          setCommandHistory((prev) => [...prev, t.bio]);
+        } else if (file === "skills.json") {
+          setCommandHistory((prev) => [...prev, JSON.stringify(t.skills, null, 2)]);
+        } else if (file === "education.md") {
+          const eduStr = t.education?.map(e => `- ${e.degree} @ ${e.institution} (${e.period})`).join("\n") || "No education records.";
+          setCommandHistory((prev) => [...prev, eduStr]);
+        } else if (file === "awards.md") {
+          const awardStr = t.awards?.map(a => `- ${a.title} (${a.date}): ${a.desc}`).join("\n") || "No award records.";
+          setCommandHistory((prev) => [...prev, awardStr]);
+        } else if (file === "publications.md") {
+          const pubStr = t.publications?.map(p => `- ${p.title} (${p.year})`).join("\n") || "No publication records.";
+          setCommandHistory((prev) => [...prev, pubStr]);
+        } else if (!file) {
+          setCommandHistory((prev) => [...prev, "cat: missing operand"]);
+        } else {
+          setCommandHistory((prev) => [...prev, `cat: ${file}: No such file or directory`]);
+        }
+        break;
+      }
+      case "firstfetch":
+        setCommandHistory((prev) => [
+          ...prev,
+          "OS: Arch Linux",
+          `Host: ${t.name}-IdeaPad Slim 3`,
+          "Kernel: Linux 6.18.33-1-lts",
+          "Shell: ghostty 1.3.1-arch2",
+          "WM: Sway",
+          "Theme: Tokyo Night",
+        ]);
+        break;
+      case "ssh":
+        if (args[1] === "contact@tatsuya") {
+          setCommandHistory((prev) => [
+            ...prev,
+            `GitHub: ${t.contact.github}`,
+            `LinkedIn: ${t.contact.LinkedIn}`,
+            `Email: ${t.contact.email}`,
+            t.contact.orcid ? `ORCID: ${t.contact.orcid}` : "",
+          ].filter(Boolean));
+        } else {
+          setCommandHistory((prev) => [...prev, "ssh: connection refused"]);
+        }
+        break;
+      case "theme": {
+        const newTheme = args[1];
+        if (["tokyo", "matrix", "dracula"].includes(newTheme)) {
+          setTheme(newTheme);
+          setCommandHistory((prev) => [...prev, `Theme changed to ${newTheme}`]);
+        } else {
+          setCommandHistory((prev) => [...prev, "Available themes: tokyo, matrix, dracula"]);
+        }
+        break;
+      }
+      case "clear":
+        setCommandHistory([]);
+        break;
+      case "date":
+        setCommandHistory((prev) => [...prev, new Date().toString()]);
+        break;
+      case "secret":
+        setCommandHistory((prev) => [
+          ...prev,
+          "🔓 Achievement Unlocked: Terminal Master! 🚀",
+        ]);
+        break;
+      case "sl":
+        setCommandHistory((prev) => [
+          ...prev,
+          "      ====        ____________________",
+          "      _||__|      |                    |",
+          "     (o000o)      |  CHOCO CHOCO...    |",
+          "   --|______|-----|____________________|",
+          "    /oo  oo\\      /oo          oo\\",
+        ]);
+        break;
+      case "sudo":
+        if (cmd === "sudo rm -rf /") {
+          setCommandHistory((prev) => [...prev, "⚠️ Nice try! I've already backed up the mainframe. 😎"]);
+        } else if (cmd.startsWith("sudo pacman")) {
+          setCommandHistory((prev) => [
+            ...prev,
+            ":: Synchronizing package databases...",
+            " core is up to date",
+            " extra is up to date",
+            ":: Starting full system upgrade...",
+            " there is nothing to do",
+            "☕ Time to grab a coffee, everything is fresh!",
+          ]);
+        } else {
+          setCommandHistory((prev) => [...prev, "sudo: permission denied"]);
+        }
+        break;
+      default:
+        setCommandHistory((prev) => [...prev, `command not found: ${baseCmd}`]);
     }
 
     setInputValue("");
-    // Keep focus on input after command
-    setTimeout(() => inputRef.current?.focus(), 10);
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 10);
   };
 
   const renderPage = () => {
@@ -150,7 +235,7 @@ function AppContent() {
           >
             <p>
               <span className="prompt">$</span>
-              <Typewriter text="ssh contact@tatsuya" speed={50} delay={6500} />
+              <Typewriter text="ssh contact@tatsuya" speed={30} delay={6000} />
             </p>
             <div
               style={{
@@ -199,6 +284,9 @@ function AppContent() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              spellCheck="false"
+              autoComplete="off"
+              autoCapitalize="none"
               style={{
                 background: "none",
                 border: "none",
