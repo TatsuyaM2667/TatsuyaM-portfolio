@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Experience from "./pages/Experience";
 import Background from "./components/Background";
+import Typewriter from "./components/Typewriter";
 import { useLanguage, LanguageProvider } from "./hooks/useLanguage";
 import "./App.css";
 
@@ -86,7 +87,8 @@ function AppContent() {
             }}
           >
             <p>
-              <span className="prompt">$</span>ssh contact@tatsuya
+              <span className="prompt">$</span>
+              <Typewriter text="ssh contact@tatsuya" speed={50} delay={6500} />
             </p>
             <div
               style={{
