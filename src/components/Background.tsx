@@ -20,19 +20,19 @@ const Background = () => {
     scene.add(group);
 
     // Digital Grid
-    const gridHelper = new THREE.GridHelper(20, 40, 0x7aa2f7, 0x24283b);
-    gridHelper.position.y = -2;
+    const gridHelper = new THREE.GridHelper(30, 60, 0xbb9af7, 0x414868);
+    gridHelper.position.y = -3;
     group.add(gridHelper);
 
     // Floating Cubes
     const cubes: THREE.Mesh[] = [];
-    const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+    const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
       const material = new THREE.MeshPhongMaterial({
-        color: i % 2 === 0 ? 0xbb9af7 : 0x73daca,
+        color: i % 3 === 0 ? 0xbb9af7 : i % 3 === 1 ? 0x7aa2f7 : 0x73daca,
         transparent: true,
-        opacity: 0.4,
+        opacity: 0.6,
         shininess: 100
       });
       const cube = new THREE.Mesh(geometry, material);
@@ -103,7 +103,7 @@ const Background = () => {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: -1, width: '100vw', height: '100vh', pointerEvents: 'none', background: 'radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%)' }} />;
+  return <div ref={containerRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 0, width: '100vw', height: '100vh', pointerEvents: 'none', background: 'radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%)' }} />;
 };
 
 export default Background;
