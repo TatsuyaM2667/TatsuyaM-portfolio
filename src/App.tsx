@@ -18,6 +18,7 @@ function AppContent() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
+  const [bgType, setBgType] = useState("grid");
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -44,8 +45,17 @@ function AppContent() {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, firstfetch, cat [file], ssh, theme [name], clear, date, sl, sudo pacman, exit, secret",
+          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, firstfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, sudo pacman, exit, secret",
         ]);
+        break;
+      case "bg":
+        const type = args[1];
+        if (["grid", "stars", "cubes", "none"].includes(type)) {
+          setBgType(type);
+          setCommandHistory((prev) => [...prev, `Background set to ${type}`]);
+        } else {
+          setCommandHistory((prev) => [...prev, "Usage: bg [grid|stars|cubes|none]"]);
+        }
         break;
       case "uname":
         if (args[1] === "-a") {
@@ -289,7 +299,7 @@ function AppContent() {
 
   return (
     <>
-      <Background />
+      <Background type={bgType} />
       <div className="app-container" onClick={() => inputRef.current?.focus()}>
         <header
           style={{
@@ -410,11 +420,11 @@ function AppContent() {
           <div className="sl-overlay">
             <pre className="sl-train">
               {`
-      . . . . o o o o o
-             _____      _________________
-    ________[_|___]____|_               |_
-   [_________________|_|_______________|_|
-    oo-oo-oo     oo-oo      oo-oo  oo-oo
+      ====        ________                ___________
+  _D _|  |_ ______|_  ____|_  _________  |_  _______|_
+ |   |____| |      |_|    |_| |      |_| |_|       |_|
+ |___________|______|______|______|______|___________|
+  oo          oo          oo          oo          oo
               `}
             </pre>
           </div>
