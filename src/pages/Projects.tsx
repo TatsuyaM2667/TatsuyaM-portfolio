@@ -36,7 +36,7 @@ const Projects: React.FC = () => {
         {t.projects.map((project) => (
           <div key={`${project.name}-desc`} style={{ marginTop: '2rem' }}>
             <p><span className="prompt">$</span>cat ~/projects/{project.name}/README.md</p>
-            <div style={{ padding: '1rem', background: 'var(--code-bg)', borderRadius: '4px', marginTop: '0.5rem', backgroundColor: 'rgba(65, 72, 104, 0.5)' }}>
+            <div style={{ padding: '1rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '4px', marginTop: '0.5rem', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
               <p>{project.desc}</p>
             </div>
           </div>

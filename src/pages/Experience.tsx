@@ -22,7 +22,7 @@ const Experience: React.FC = () => {
       </div>
 
       <p style={{ marginTop: '3rem' }}><span className="prompt">$</span>cat skills.json</p>
-      <pre style={{ fontSize: '0.9rem', marginTop: '0.5rem', backgroundColor: 'rgba(65, 72, 104, 0.5)' }}>
+      <pre style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
         {JSON.stringify(t.skills, null, 2)}
       </pre>
     </div>
