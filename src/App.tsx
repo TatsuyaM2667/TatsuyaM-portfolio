@@ -18,7 +18,7 @@ function AppContent() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
-  const [bgType, setBgType] = useState("grid");
+  const [bgType, setBgType] = useState("grid-cubes");
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,11 +50,14 @@ function AppContent() {
         break;
       case "bg":
         const type = args[1];
-        if (["grid", "stars", "cubes", "none"].includes(type)) {
+        if (["grid", "stars", "cubes", "grid-cubes", "torus", "waves", "none"].includes(type)) {
           setBgType(type);
           setCommandHistory((prev) => [...prev, `Background set to ${type}`]);
         } else {
-          setCommandHistory((prev) => [...prev, "Usage: bg [grid|stars|cubes|none]"]);
+          setCommandHistory((prev) => [
+            ...prev,
+            "Usage: bg [grid|stars|cubes|grid-cubes|torus|waves|none]",
+          ]);
         }
         break;
       case "uname":

@@ -5,7 +5,7 @@ interface BackgroundProps {
   type?: string;
 }
 
-const Background = ({ type = 'grid' }: BackgroundProps) => {
+const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,12 +25,16 @@ const Background = ({ type = 'grid' }: BackgroundProps) => {
 
     const cubes: THREE.Mesh[] = [];
     const stars: THREE.Points[] = [];
+    let waves: THREE.Points | null = null;
+    let torus: THREE.Mesh | null = null;
 
-    if (type === 'grid') {
+    if (type === 'grid' || type === 'grid-cubes') {
       const gridHelper = new THREE.GridHelper(30, 60, 0xbb9af7, 0x414868);
       gridHelper.position.y = -3;
       group.add(gridHelper);
-    } else if (type === 'cubes') {
+    }
+
+    if (type === 'cubes' || type === 'grid-cubes') {
       const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
       for (let i = 0; i < 60; i++) {
         const material = new THREE.MeshPhongMaterial({
@@ -47,13 +51,13 @@ const Background = ({ type = 'grid' }: BackgroundProps) => {
       }
     } else if (type === 'stars') {
       const starGeometry = new THREE.BufferGeometry();
-      const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05 });
+      const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
 
       const starVertices = [];
-      for (let i = 0; i < 10000; i++) {
-        const x = (Math.random() - 0.5) * 2000;
-        const y = (Math.random() - 0.5) * 2000;
-        const z = -Math.random() * 2000;
+      for (let i = 0; i < 5000; i++) {
+        const x = (Math.random() - 0.5) * 100;
+        const y = (Math.random() - 0.5) * 100;
+        const z = (Math.random() - 0.5) * 100;
         starVertices.push(x, y, z);
       }
 
@@ -61,6 +65,32 @@ const Background = ({ type = 'grid' }: BackgroundProps) => {
       const starPoints = new THREE.Points(starGeometry, starMaterial);
       scene.add(starPoints);
       stars.push(starPoints);
+    } else if (type === 'torus') {
+      const geometry = new THREE.TorusKnotGeometry(2, 0.6, 128, 32);
+      const material = new THREE.MeshPhongMaterial({ 
+        color: 0xbb9af7, 
+        wireframe: true,
+        transparent: true,
+        opacity: 0.4
+      });
+      torus = new THREE.Mesh(geometry, material);
+      group.add(torus);
+    } else if (type === 'waves') {
+      const geometry = new THREE.BufferGeometry();
+      const count = 50;
+      const positions = new Float32Array(count * count * 3);
+      for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+          positions[(i * count + j) * 3 + 0] = i - count / 2;
+          positions[(i * count + j) * 3 + 1] = 0;
+          positions[(i * count + j) * 3 + 2] = j - count / 2;
+        }
+      }
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const material = new THREE.PointsMaterial({ color: 0x7aa2f7, size: 0.1 });
+      waves = new THREE.Points(geometry, material);
+      waves.position.y = -2;
+      group.add(waves);
     }
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -105,6 +135,23 @@ const Background = ({ type = 'grid' }: BackgroundProps) => {
         stars.forEach(s => {
           s.rotation.y += 0.0005;
         });
+      }
+
+      if (torus) {
+        torus.rotation.x += 0.01;
+        torus.rotation.y += 0.01;
+      }
+
+      if (waves && waves.geometry.attributes.position) {
+        const positions = waves.geometry.attributes.position.array as Float32Array;
+        const count = 50;
+        for (let i = 0; i < count; i++) {
+          for (let j = 0; j < count; j++) {
+            const index = (i * count + j) * 3 + 1;
+            positions[index] = Math.sin((i / 5) + (Date.now() * 0.001)) + Math.sin((j / 5) + (Date.now() * 0.001));
+          }
+        }
+        waves.geometry.attributes.position.needsUpdate = true;
       }
 
       renderer.render(scene, camera);
