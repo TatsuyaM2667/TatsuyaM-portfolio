@@ -16,7 +16,7 @@ export interface Skills {
   languages: string[];
   frontend: string[];
   backend: string[];
-  tools: string[];
+  Infrastructure: string[];
 }
 
 export interface PortfolioData {
@@ -28,7 +28,7 @@ export interface PortfolioData {
   experiences: Experience[];
   contact: {
     github: string;
-    twitter: string;
+    LinkedIn: string;
     email: string;
   };
 }

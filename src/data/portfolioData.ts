@@ -5,16 +5,16 @@ export const portfolioDataEn: PortfolioData = {
   role: "Full Stack Developer",
   bio: "Building scalable web applications and exploring new technologies.",
   skills: {
-    languages: ["TypeScript", "JavaScript", "Go", "Python"],
+    languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "MySQL", "Redis"],
-    tools: ["Git", "Docker", "AWS", "Kubernetes"],
+    backend: ["Node.js", "vite", "MySQL"],
+    Infrastructure: ["Cloudflare", "Docker", "AWS", "Kubernetes"],
   },
   projects: [
     {
-      name: "portfolio-v2",
+      name: "OPENEssex menber website",
       tech: ["React", "TypeScript", "Vite"],
-      desc: "A terminal-inspired portfolio website with interactive CLI features.",
+      desc: "OpenEssexのメンバー限定公式ウェブサイト",
       link: "https://github.com/tatsuya/portfolio-v2",
     },
     {
@@ -34,7 +34,7 @@ export const portfolioDataEn: PortfolioData = {
   ],
   contact: {
     github: "https://github.com/tatsuya",
-    twitter: "https://x.com/tatsuya",
+    LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     email: "hello@tatsuya.dev",
   },
 };
@@ -42,12 +42,12 @@ export const portfolioDataEn: PortfolioData = {
 export const portfolioDataJp: PortfolioData = {
   name: "Tatsuya",
   role: "フルスタックエンジニア",
-  bio: "スケーラブルなWebアプリケーションの構築と新しい技術の探求をしています。",
+  bio: "Reactを使用したアプリケーション構築とArduinoを使用したIoTシステムの構築。",
   skills: {
-    languages: ["TypeScript", "JavaScript", "Go", "Python"],
-    frontend: ["React", "Next.js", "Tailwind CSS", "Vue.js"],
-    backend: ["Node.js", "Express", "PostgreSQL", "Redis"],
-    tools: ["Git", "Docker", "AWS", "Kubernetes"],
+    languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
+    frontend: ["React", "Next.js", "Tailwind CSS"],
+    backend: ["Node.js", "Express", "PostgreSQL"],
+    Infrastructure: ["Git", "Docker", "AWS"],
   },
   projects: [
     {
@@ -65,15 +65,15 @@ export const portfolioDataJp: PortfolioData = {
   ],
   experiences: [
     {
-      period: "2023 - 現在",
-      role: "シニアソフトウェアエンジニア",
+      period: "2026-現在",
+      role: "CTO",
       company: "TechCorp",
-      desc: "クラウドネイティブプラットフォームのフロントエンド開発をリード。",
+      desc: "Web開発とアーキテクチャ開発",
     },
   ],
   contact: {
-    github: "https://github.com/tatsuya",
-    twitter: "https://x.com/tatsuya",
-    email: "hello@tatsuya.dev",
+    github: "https://github.com/TatsuyaM2667",
+    LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
+    email: "tatsuyamiura2667@gmail.com",
   },
 };
