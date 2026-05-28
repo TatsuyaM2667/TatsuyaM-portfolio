@@ -101,7 +101,7 @@ const Background = () => {
         position: 'fixed', 
         top: 0, 
         left: 0, 
-        zIndex: 1, /* Above html, but below #root (z-index 10) */
+        zIndex: 0, /* Lowest layer */
         width: '100vw', 
         height: '100vh', 
         pointerEvents: 'none',
