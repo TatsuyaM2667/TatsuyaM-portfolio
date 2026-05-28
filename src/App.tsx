@@ -27,8 +27,10 @@ function AppContent() {
     const fullCmd = inputValue.trim();
     if (!fullCmd) return;
     
-    const cmd = fullCmd.toLowerCase();
-    const args = cmd.split(" ");
+    // Handle both standard and Japanese full-width spaces
+    const normalizedCmd = fullCmd.replace(/　/g, " ");
+    const cmd = normalizedCmd.toLowerCase();
+    const args = cmd.split(/\s+/);
     const baseCmd = args[0];
     
     setCommandHistory((prev) => [...prev, `$ ${fullCmd}`]);
@@ -53,15 +55,21 @@ function AppContent() {
         ]);
         break;
       case "cd": {
-        const target = args[1]?.replace("/", "");
-        if (!target || target === "~" || target === "home") {
+        let path = args[1] || "";
+        // Clean up path: remove trailing slash, handle ~/ or /
+        path = path.replace(/\/$/, "").replace(/^~\//, "").replace(/^\//, "");
+        
+        if (path === "" || path === "~" || path === "home") {
           setCurrentPage("home");
           setCommandHistory((prev) => [...prev, "Changed directory to ~/home"]);
-        } else if (["projects", "experience"].includes(target)) {
-          setCurrentPage(target as Page);
-          setCommandHistory((prev) => [...prev, `Changed directory to ~/${target}`]);
+        } else if (path === "projects") {
+          setCurrentPage("projects");
+          setCommandHistory((prev) => [...prev, "Changed directory to ~/projects"]);
+        } else if (path === "experience") {
+          setCurrentPage("experience");
+          setCommandHistory((prev) => [...prev, "Changed directory to ~/experience"]);
         } else {
-          setCommandHistory((prev) => [...prev, `cd: no such directory: ${target}`]);
+          setCommandHistory((prev) => [...prev, `cd: no such directory: ${args[1]}`]);
         }
         break;
       }
@@ -134,28 +142,48 @@ function AppContent() {
         ]);
         break;
       case "sl":
-        setCommandHistory((prev) => [
-          ...prev,
+        // Realistic SL animation feel
+        const train = [
           "      ====        ____________________",
           "      _||__|      |                    |",
           "     (o000o)      |  CHOCO CHOCO...    |",
           "   --|______|-----|____________________|",
           "    /oo  oo\\      /oo          oo\\",
-        ]);
+        ];
+        setCommandHistory((prev) => [...prev, ...train]);
         break;
       case "sudo":
         if (cmd === "sudo rm -rf /") {
           setCommandHistory((prev) => [...prev, "⚠️ Nice try! I've already backed up the mainframe. 😎"]);
-        } else if (cmd.startsWith("sudo pacman")) {
-          setCommandHistory((prev) => [
-            ...prev,
-            ":: Synchronizing package databases...",
-            " core is up to date",
-            " extra is up to date",
-            ":: Starting full system upgrade...",
-            " there is nothing to do",
-            "☕ Time to grab a coffee, everything is fresh!",
-          ]);
+        } else if (cmd.includes("pacman")) {
+          if (cmd.includes("-syu")) {
+            setCommandHistory((prev) => [
+              ...prev,
+              ":: Synchronizing package databases...",
+              " core                 160.2 KiB   435 KiB/s 00:00 [######################] 100%",
+              " extra               1012.4 KiB  2.50 MiB/s 00:00 [######################] 100%",
+              ":: Starting full system upgrade...",
+              " resolving dependencies...",
+              " looking for conflicting packages...",
+              " there is nothing to do",
+              "☕ Everything is up to date. Arch is life.",
+            ]);
+          } else if (cmd.includes("-s ")) {
+            const pkg = args[args.length - 1];
+            setCommandHistory((prev) => [
+              ...prev,
+              `resolving dependencies...`,
+              `looking for conflicting packages...`,
+              `Packages (1) ${pkg}-1.0.0-1`,
+              `Total Installed Size:  0.05 MiB`,
+              `:: Proceed with installation? [Y/n] y`,
+              `(1/1) installing ${pkg}                             [######################] 100%`,
+              `:: Running post-transaction hooks...`,
+              `(1/1) Arming ConditionNeedsUpdate...`,
+            ]);
+          } else {
+            setCommandHistory((prev) => [...prev, "error: no operation specified (use -h for help)"]);
+          }
         } else {
           setCommandHistory((prev) => [...prev, "sudo: permission denied"]);
         }
