@@ -76,7 +76,7 @@ const Home: React.FC = () => {
             <strong>OS</strong>: Arch Linux
           </p>
           <p>
-            <strong>Host</strong>: {t.name}-Workstation
+            <strong>Host</strong>: {t.name}- 83K6 (IdeaPad Slim 3 14ARP10)
           </p>
           <p>
             <strong>Kernel</strong>: Linux 6.18.33-1-lts

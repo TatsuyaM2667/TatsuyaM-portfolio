@@ -1,7 +1,7 @@
 import type { PortfolioData } from "../types/portfolio";
 
 export const portfolioDataEn: PortfolioData = {
-  name: "Tatsuya",
+  name: "Tatsuya　Miura",
   role: "Full Stack Developer",
   bio: "Building scalable web applications and exploring new technologies.",
   skills: {
@@ -33,14 +33,14 @@ export const portfolioDataEn: PortfolioData = {
     },
   ],
   contact: {
-    github: "https://github.com/tatsuya",
+    github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     email: "hello@tatsuya.dev",
   },
 };
 
 export const portfolioDataJp: PortfolioData = {
-  name: "Tatsuya",
+  name: "Tatsuya Miura",
   role: "フルスタックエンジニア",
   bio: "Reactを使用したアプリケーション構築とArduinoを使用したIoTシステムの構築。",
   skills: {
@@ -65,9 +65,15 @@ export const portfolioDataJp: PortfolioData = {
   ],
   experiences: [
     {
-      period: "2026-現在",
+      period: "2025",
       role: "CTO",
-      company: "TechCorp",
+      company: "法政二高物理部",
+      desc: "宇宙甲子園カンサット部門において全国準優勝",
+    },
+    {
+      period: "2026-現在",
+      role: "PM",
+      company: "SKYS",
       desc: "Web開発とアーキテクチャ開発",
     },
   ],
