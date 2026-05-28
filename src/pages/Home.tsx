@@ -7,19 +7,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="page-home" key={language}>
-      <div style={{ 
-        backgroundColor: "var(--accent-bg)", 
-        padding: "0.5rem 1rem", 
-        borderRadius: "8px", 
-        fontSize: "0.8rem", 
-        marginBottom: "1.5rem",
-        border: "1px solid var(--accent-border)",
-        color: "var(--accent)"
-      }}>
-        {language === "en" 
-          ? "💡 Tip: You can actually type commands! Try typing 'help' below." 
-          : "💡 ヒント: 実際にコマンドを入力できます！下の入力欄に 'help' と打ってみてください。"}
-      </div>
+      <div
+        style={{
+          backgroundColor: "var(--accent-bg)",
+          padding: "0.5rem 1rem",
+          borderRadius: "8px",
+          fontSize: "0.8rem",
+          marginBottom: "1.5rem",
+          border: "1px solid var(--accent-border)",
+          color: "var(--accent)",
+        }}
+      ></div>
       <div
         style={{
           display: "flex",
