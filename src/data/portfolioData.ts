@@ -46,6 +46,11 @@ export const portfolioDataEn: PortfolioData = {
       degree: "High School Diploma",
       institution: "Hosei University Second High School",
     },
+    {
+      period: "2026 -",
+      degree: "SAK Computer Science",
+      institution: "University of Essex",
+    },
   ],
   awards: [
     {
@@ -54,13 +59,7 @@ export const portfolioDataEn: PortfolioData = {
       desc: "Awarded as CTO of the Physics Club.",
     },
   ],
-  publications: [
-    {
-      year: "2025",
-      title: "CanSat Development and Mission Analysis",
-      publisher: "Hosei 2nd Physics Club Journal",
-    },
-  ],
+
   contact: {
     github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
@@ -107,12 +106,17 @@ export const portfolioDataJp: PortfolioData = {
       degree: "普通科卒業",
       institution: "法政大学第二高等学校",
     },
+    {
+      period: "2026 -",
+      degree: "SAK Computer Science",
+      institution: "University of Essex",
+    },
   ],
   awards: [
     {
       date: "2025",
       title: "宇宙甲子園カンサット部門 全国準優勝",
-      desc: "物理部CTOとして受賞",
+      desc: "法政二高物理部として受賞",
     },
   ],
 
