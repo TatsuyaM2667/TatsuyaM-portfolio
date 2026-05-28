@@ -5,10 +5,10 @@ export const portfolioDataEn: PortfolioData = {
   role: "Full Stack Engineer",
   bio: "Building applications with React and IoT systems with Arduino.",
   skills: {
-    languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
+    languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Next.js", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "PostgreSQL"],
-    Infrastructure: ["Git", "Docker", "AWS"],
+    backend: ["Node.js", "Vite", "MySQL"],
+    Infrastructure: ["Git", "Docker", "Tailscale", "GCP", "AWS"],
   },
   projects: [
     {
@@ -18,10 +18,10 @@ export const portfolioDataEn: PortfolioData = {
       link: "https://github.com/TatsuyaM2667/FluxAudio-MusicApp",
     },
     {
-      name: "tech-blog",
-      tech: ["Next.js", "Tailwind", "MDX"],
-      desc: "Technical blog about web development and architecture.",
-      link: "https://github.com/tatsuya/tech-blog",
+      name: "Rust_OS",
+      tech: ["Rust"],
+      desc: "Rust製のOS",
+      link: "https://github.com/TatsuyaM2667/Rust_os",
     },
   ],
   experiences: [
@@ -50,10 +50,10 @@ export const portfolioDataJp: PortfolioData = {
   role: "フルスタックエンジニア",
   bio: "Reactを使用したアプリケーション構築とArduinoを使用したIoTシステムの構築。",
   skills: {
-    languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
+    languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Next.js", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "MySQL"],
-    Infrastructure: ["Git", "Docker", "AWS"],
+    backend: ["Node.js", "Vite", "MySQL"],
+    Infrastructure: ["Git", "Docker", "Tailscale", "GCP", "AWS"],
   },
   projects: [
     {
@@ -63,10 +63,10 @@ export const portfolioDataJp: PortfolioData = {
       link: "https://github.com/TatsuyaM2667/FluxAudio-MusicApp",
     },
     {
-      name: "tech-blog",
-      tech: ["Next.js", "Tailwind", "MDX"],
-      desc: "Web開発とアーキテクチャに関する技術ブログ。",
-      link: "https://github.com/tatsuya/tech-blog",
+      name: "Rust_OS",
+      tech: ["Rust"],
+      desc: "Rust製のOS",
+      link: "https://github.com/TatsuyaM2667/Rust_os",
     },
   ],
   experiences: [
