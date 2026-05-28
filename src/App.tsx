@@ -18,7 +18,7 @@ function AppContent() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
-  const [bgType, setBgType] = useState("grid-cubes");
+  const [bgType, setBgType] = useState("sphere && stars && cubes && dots");
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
