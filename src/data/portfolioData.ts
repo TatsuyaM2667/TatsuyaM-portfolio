@@ -6,9 +6,17 @@ export const portfolioDataEn: PortfolioData = {
   bio: "Building applications with React and IoT systems with Arduino.",
   skills: {
     languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
-    frontend: ["React", "Next.js", "Tailwind CSS"],
+    frontend: ["React", "Tailwind CSS", "Expo"],
     backend: ["Node.js", "Vite", "MySQL"],
-    Infrastructure: ["Git", "Docker", "Tailscale", "GCP", "AWS"],
+    Infrastructure: [
+      "Cloudflare",
+      "Firebase",
+      "Git",
+      "Docker",
+      "Tailscale",
+      "GCP",
+      "AWS",
+    ],
   },
   projects: [
     {
@@ -26,22 +34,38 @@ export const portfolioDataEn: PortfolioData = {
   ],
   experiences: [
     {
-      period: "2025",
-      role: "CTO",
-      company: "Hosei 2nd High School Physics Club",
-      desc: "National Runner-up in the Space Koshien CanSat division.",
-    },
-    {
       period: "2026-Present",
-      role: "PM",
+      role: "ProjectManager",
       company: "SKYS",
       desc: "Web development and architecture development.",
+    },
+  ],
+  education: [
+    {
+      period: "2023 - 2026",
+      degree: "High School Diploma",
+      institution: "Hosei University Second High School",
+    },
+  ],
+  awards: [
+    {
+      date: "2025",
+      title: "National Runner-up in Space Koshien CanSat division",
+      desc: "Awarded as CTO of the Physics Club.",
+    },
+  ],
+  publications: [
+    {
+      year: "2025",
+      title: "CanSat Development and Mission Analysis",
+      publisher: "Hosei 2nd Physics Club Journal",
     },
   ],
   contact: {
     github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     email: "tatsuyamiura2667@gmail.com",
+    orcid: "https://orcid.org/0000-0000-0000-0000",
   },
 };
 
@@ -71,21 +95,37 @@ export const portfolioDataJp: PortfolioData = {
   ],
   experiences: [
     {
-      period: "2025",
-      role: "CTO",
-      company: "法政二高物理部",
-      desc: "宇宙甲子園カンサット部門において全国準優勝",
-    },
-    {
       period: "2026-現在",
       role: "PM",
       company: "SKYS",
       desc: "Web開発とアーキテクチャ開発",
     },
   ],
+  education: [
+    {
+      period: "2023 - 2026",
+      degree: "普通科卒業",
+      institution: "法政大学第二高等学校",
+    },
+  ],
+  awards: [
+    {
+      date: "2025",
+      title: "宇宙甲子園カンサット部門 全国準優勝",
+      desc: "物理部CTOとして受賞",
+    },
+  ],
+  publications: [
+    {
+      year: "2025",
+      title: "CanSatの開発とミッション解析",
+      publisher: "法政二高物理部紀要",
+    },
+  ],
   contact: {
     github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     email: "tatsuyamiura2667@gmail.com",
+    orcid: "https://orcid.org/0000-0000-0000-0000",
   },
 };

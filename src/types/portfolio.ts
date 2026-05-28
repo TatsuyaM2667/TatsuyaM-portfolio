@@ -26,9 +26,27 @@ export interface PortfolioData {
   skills: Skills;
   projects: Project[];
   experiences: Experience[];
+  education?: {
+    period: string;
+    degree: string;
+    institution: string;
+  }[];
+  awards?: {
+    date: string;
+    title: string;
+    desc: string;
+  }[];
+  publications?: {
+    year: string;
+    title: string;
+    publisher: string;
+    link?: string;
+  }[];
   contact: {
     github: string;
     LinkedIn: string;
     email: string;
+    orcid?: string;
+    twitter?: string;
   };
 }

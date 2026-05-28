@@ -166,6 +166,11 @@ function AppContent() {
               <a href={t.contact.LinkedIn} target="_blank" rel="noreferrer">
                 LinkedIn
               </a>
+              {t.contact.orcid && (
+                <a href={t.contact.orcid} target="_blank" rel="noreferrer">
+                  ORCID
+                </a>
+              )}
               <a href={`mailto:${t.contact.email}`}>Email</a>
             </div>
           </div>

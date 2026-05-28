@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       <section style={{ marginTop: "2rem" }}>
         <p>
           <span className="prompt">$</span>
-          <Typewriter text="neofetch" speed={50} delay={4500} />
+          <Typewriter text="firstfetch" speed={50} delay={4500} />
         </p>
         <div style={{ marginTop: "1rem" }}>
           <p>
@@ -80,6 +80,93 @@ const Home: React.FC = () => {
           </p>
         </div>
       </section>
+
+      {t.education && (
+        <section style={{ marginTop: "2rem" }}>
+          <p>
+            <span className="prompt">$</span>
+            <Typewriter text="cat education.md" speed={50} delay={6500} />
+          </p>
+          <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
+            {t.education.map((edu, index) => (
+              <div key={index} style={{ marginBottom: "1rem" }}>
+                <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
+                  <Typewriter
+                    text={`> ${edu.degree}`}
+                    delay={7000 + index * 500}
+                    speed={30}
+                  />
+                </p>
+                <p>
+                  <Typewriter
+                    text={`${edu.institution} | ${edu.period}`}
+                    delay={7500 + index * 500}
+                    speed={20}
+                  />
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {t.awards && (
+        <section style={{ marginTop: "2rem" }}>
+          <p>
+            <span className="prompt">$</span>
+            <Typewriter text="cat awards.md" speed={50} delay={8500} />
+          </p>
+          <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
+            {t.awards.map((award, index) => (
+              <div key={index} style={{ marginBottom: "1rem" }}>
+                <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
+                  <Typewriter
+                    text={`* ${award.title}`}
+                    delay={9000 + index * 500}
+                    speed={30}
+                  />
+                </p>
+                <p>
+                  <Typewriter
+                    text={`${award.date}: ${award.desc}`}
+                    delay={9500 + index * 500}
+                    speed={20}
+                  />
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {t.publications && (
+        <section style={{ marginTop: "2rem" }}>
+          <p>
+            <span className="prompt">$</span>
+            <Typewriter text="cat publications.md" speed={50} delay={10500} />
+          </p>
+          <div style={{ marginTop: "0.5rem", paddingLeft: "1rem" }}>
+            {t.publications.map((pub, index) => (
+              <div key={index} style={{ marginBottom: "1rem" }}>
+                <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
+                  <Typewriter
+                    text={`- ${pub.title}`}
+                    delay={11000 + index * 500}
+                    speed={30}
+                  />
+                </p>
+                <p>
+                  <Typewriter
+                    text={`${pub.publisher} (${pub.year})`}
+                    delay={11500 + index * 500}
+                    speed={20}
+                  />
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };
