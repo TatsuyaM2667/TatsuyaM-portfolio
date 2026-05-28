@@ -15,6 +15,9 @@ function AppContent() {
   const [inputValue, setInputValue] = useState("");
   const [theme, setTheme] = useState("tokyo");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isSlRunning, setIsSlRunning] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,27 +29,42 @@ function AppContent() {
     e.preventDefault();
     const fullCmd = inputValue.trim();
     if (!fullCmd) return;
-    
+
     // Handle both standard and Japanese full-width spaces
     const normalizedCmd = fullCmd.replace(/　/g, " ");
     const cmd = normalizedCmd.toLowerCase();
     const args = cmd.split(/\s+/);
     const baseCmd = args[0];
-    
+
     setCommandHistory((prev) => [...prev, `$ ${fullCmd}`]);
+    setHistory((prev) => [fullCmd, ...prev]);
+    setHistoryIndex(-1);
 
     switch (baseCmd) {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls, whoami, firstfetch, cat [file], ssh, theme [name], clear, date, sl, sudo pacman, secret",
+          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, firstfetch, cat [file], ssh, theme [name], clear, date, sl, sudo pacman, exit, secret",
+        ]);
+        break;
+      case "uname":
+        if (args[1] === "-a") {
+          setCommandHistory((prev) => [
+            ...prev,
+            "Linux tatsuya-dev 6.18.33-1-lts #1 SMP PREEMPT_DYNAMIC Thu, 22 May 2026 12:00:00 +0000 x86_64 GNU/Linux",
+          ]);
+        } else {
+          setCommandHistory((prev) => [...prev, "Linux"]);
+        }
+        break;
+      case "exit":
+        setCommandHistory((prev) => [
+          ...prev,
+          "Session ended. Refresh to restart.",
         ]);
         break;
       case "whoami":
-        setCommandHistory((prev) => [
-          ...prev,
-          `${t.name} - ${t.role}`,
-        ]);
+        setCommandHistory((prev) => [...prev, `${t.name} - ${t.role}`]);
         break;
       case "ls":
         setCommandHistory((prev) => [
@@ -58,18 +76,27 @@ function AppContent() {
         let path = args[1] || "";
         // Clean up path: remove trailing slash, handle ~/ or /
         path = path.replace(/\/$/, "").replace(/^~\//, "").replace(/^\//, "");
-        
+
         if (path === "" || path === "~" || path === "home") {
           setCurrentPage("home");
           setCommandHistory((prev) => [...prev, "Changed directory to ~/home"]);
         } else if (path === "projects") {
           setCurrentPage("projects");
-          setCommandHistory((prev) => [...prev, "Changed directory to ~/projects"]);
+          setCommandHistory((prev) => [
+            ...prev,
+            "Changed directory to ~/projects",
+          ]);
         } else if (path === "experience") {
           setCurrentPage("experience");
-          setCommandHistory((prev) => [...prev, "Changed directory to ~/experience"]);
+          setCommandHistory((prev) => [
+            ...prev,
+            "Changed directory to ~/experience",
+          ]);
         } else {
-          setCommandHistory((prev) => [...prev, `cd: no such directory: ${args[1]}`]);
+          setCommandHistory((prev) => [
+            ...prev,
+            `cd: no such directory: ${args[1]}`,
+          ]);
         }
         break;
       }
@@ -78,20 +105,34 @@ function AppContent() {
         if (file === "bio.txt") {
           setCommandHistory((prev) => [...prev, t.bio]);
         } else if (file === "skills.json") {
-          setCommandHistory((prev) => [...prev, JSON.stringify(t.skills, null, 2)]);
+          setCommandHistory((prev) => [
+            ...prev,
+            JSON.stringify(t.skills, null, 2),
+          ]);
         } else if (file === "education.md") {
-          const eduStr = t.education?.map(e => `- ${e.degree} @ ${e.institution} (${e.period})`).join("\n") || "No education records.";
+          const eduStr =
+            t.education
+              ?.map((e) => `- ${e.degree} @ ${e.institution} (${e.period})`)
+              .join("\n") || "No education records.";
           setCommandHistory((prev) => [...prev, eduStr]);
         } else if (file === "awards.md") {
-          const awardStr = t.awards?.map(a => `- ${a.title} (${a.date}): ${a.desc}`).join("\n") || "No award records.";
+          const awardStr =
+            t.awards
+              ?.map((a) => `- ${a.title} (${a.date}): ${a.desc}`)
+              .join("\n") || "No award records.";
           setCommandHistory((prev) => [...prev, awardStr]);
         } else if (file === "publications.md") {
-          const pubStr = t.publications?.map(p => `- ${p.title} (${p.year})`).join("\n") || "No publication records.";
+          const pubStr =
+            t.publications?.map((p) => `- ${p.title} (${p.year})`).join("\n") ||
+            "No publication records.";
           setCommandHistory((prev) => [...prev, pubStr]);
         } else if (!file) {
           setCommandHistory((prev) => [...prev, "cat: missing operand"]);
         } else {
-          setCommandHistory((prev) => [...prev, `cat: ${file}: No such file or directory`]);
+          setCommandHistory((prev) => [
+            ...prev,
+            `cat: ${file}: No such file or directory`,
+          ]);
         }
         break;
       }
@@ -108,13 +149,15 @@ function AppContent() {
         break;
       case "ssh":
         if (args[1] === "contact@tatsuya") {
-          setCommandHistory((prev) => [
-            ...prev,
-            `GitHub: ${t.contact.github}`,
-            `LinkedIn: ${t.contact.LinkedIn}`,
-            `Email: ${t.contact.email}`,
-            t.contact.orcid ? `ORCID: ${t.contact.orcid}` : "",
-          ].filter(Boolean));
+          setCommandHistory((prev) =>
+            [
+              ...prev,
+              `GitHub: ${t.contact.github}`,
+              `LinkedIn: ${t.contact.LinkedIn}`,
+              `Email: ${t.contact.email}`,
+              t.contact.orcid ? `ORCID: ${t.contact.orcid}` : "",
+            ].filter(Boolean),
+          );
         } else {
           setCommandHistory((prev) => [...prev, "ssh: connection refused"]);
         }
@@ -123,9 +166,15 @@ function AppContent() {
         const newTheme = args[1];
         if (["tokyo", "matrix", "dracula"].includes(newTheme)) {
           setTheme(newTheme);
-          setCommandHistory((prev) => [...prev, `Theme changed to ${newTheme}`]);
+          setCommandHistory((prev) => [
+            ...prev,
+            `Theme changed to ${newTheme}`,
+          ]);
         } else {
-          setCommandHistory((prev) => [...prev, "Available themes: tokyo, matrix, dracula"]);
+          setCommandHistory((prev) => [
+            ...prev,
+            "Available themes: tokyo, matrix, dracula",
+          ]);
         }
         break;
       }
@@ -141,20 +190,22 @@ function AppContent() {
           "🔓 Achievement Unlocked: Terminal Master! 🚀",
         ]);
         break;
+      case "pwd":
+        setCommandHistory((prev) => [...prev, `/home/tatsuya/${currentPage}`]);
+        break;
+      case "echo":
+        setCommandHistory((prev) => [...prev, args.slice(1).join(" ")]);
+        break;
       case "sl":
-        // Realistic SL animation feel
-        const train = [
-          "      ====        ____________________",
-          "      _||__|      |                    |",
-          "     (o000o)      |  CHOCO CHOCO...    |",
-          "   --|______|-----|____________________|",
-          "    /oo  oo\\      /oo          oo\\",
-        ];
-        setCommandHistory((prev) => [...prev, ...train]);
+        setIsSlRunning(true);
+        setTimeout(() => setIsSlRunning(false), 4000);
         break;
       case "sudo":
         if (cmd === "sudo rm -rf /") {
-          setCommandHistory((prev) => [...prev, "⚠️ Nice try! I've already backed up the mainframe. 😎"]);
+          setCommandHistory((prev) => [
+            ...prev,
+            "⚠️ Nice try! I've already backed up the mainframe. 😎",
+          ]);
         } else if (cmd.includes("pacman")) {
           if (cmd.includes("-syu")) {
             setCommandHistory((prev) => [
@@ -182,7 +233,10 @@ function AppContent() {
               `(1/1) Arming ConditionNeedsUpdate...`,
             ]);
           } else {
-            setCommandHistory((prev) => [...prev, "error: no operation specified (use -h for help)"]);
+            setCommandHistory((prev) => [
+              ...prev,
+              "error: no operation specified (use -h for help)",
+            ]);
           }
         } else {
           setCommandHistory((prev) => [...prev, "sudo: permission denied"]);
@@ -197,6 +251,27 @@ function AppContent() {
       inputRef.current?.focus();
       inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 10);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (historyIndex < history.length - 1) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setInputValue(history[newIndex]);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setInputValue(history[newIndex]);
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1);
+        setInputValue("");
+      }
+    }
   };
 
   const renderPage = () => {
@@ -312,6 +387,7 @@ function AppContent() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
               spellCheck="false"
               autoComplete="off"
               autoCapitalize="none"
@@ -329,6 +405,20 @@ function AppContent() {
             />
           </form>
         </TerminalWindow>
+
+        {isSlRunning && (
+          <div className="sl-overlay">
+            <pre className="sl-train">
+              {`
+      . . . . o o o o o
+             _____      _________________
+    ________[_|___]____|_               |_
+   [_________________|_|_______________|_|
+    oo-oo-oo     oo-oo      oo-oo  oo-oo
+              `}
+            </pre>
+          </div>
+        )}
 
         <footer className="terminal-footer">
           <p>

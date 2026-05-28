@@ -101,11 +101,10 @@ const Background = () => {
         position: 'fixed', 
         top: 0, 
         left: 0, 
-        zIndex: 0, /* Lowest layer */
+        zIndex: -1, /* Behind everything */
         width: '100vw', 
         height: '100vh', 
         pointerEvents: 'none',
-        background: 'radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%)'
       }} 
     />
   );

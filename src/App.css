@@ -135,3 +135,37 @@ input::selection {
     padding: 1rem !important;
   }
 }
+
+.sl-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+.sl-train {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  color: #ffffff !important;
+  white-space: pre;
+  position: absolute;
+  right: -100%;
+  animation: sl-run 4s linear forwards;
+  opacity: 1;
+}
+
+@keyframes sl-run {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 150%;
+  }
+}

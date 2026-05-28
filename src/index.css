@@ -43,7 +43,7 @@
 }
 
 html {
-  background: #0a0b10;
+  background: radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%);
   color: var(--text); /* Set global color here */
 }
 
