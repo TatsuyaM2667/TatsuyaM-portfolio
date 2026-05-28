@@ -49,14 +49,44 @@ function AppContent() {
         ]);
         break;
       case "bg":
-        const type = args[1];
-        if (["grid", "stars", "cubes", "grid-cubes", "torus", "waves", "none"].includes(type)) {
-          setBgType(type);
-          setCommandHistory((prev) => [...prev, `Background set to ${type}`]);
+        const fullArg = args.slice(1).join(" ");
+        if (!fullArg) {
+          setCommandHistory((prev) => [
+            ...prev,
+            "Usage: bg [type1] && [type2] ...",
+            "Available types: grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
+          ]);
+          break;
+        }
+
+        const requestedTypes = fullArg.split("&&").map((t) => t.trim());
+        const validTypes = [
+          "grid",
+          "stars",
+          "cubes",
+          "grid-cubes",
+          "torus",
+          "waves",
+          "sphere",
+          "dots",
+          "rain",
+          "tunnel",
+          "none",
+        ];
+
+        const allValid = requestedTypes.every((t) => validTypes.includes(t));
+
+        if (allValid) {
+          setBgType(fullArg);
+          setCommandHistory((prev) => [
+            ...prev,
+            `Background set to: ${requestedTypes.join(" + ")}`,
+          ]);
         } else {
           setCommandHistory((prev) => [
             ...prev,
-            "Usage: bg [grid|stars|cubes|grid-cubes|torus|waves|none]",
+            "Invalid type detected.",
+            "Valid types: grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
           ]);
         }
         break;
