@@ -1,41 +1,47 @@
 import type { PortfolioData } from "../types/portfolio";
 
 export const portfolioDataEn: PortfolioData = {
-  name: "Tatsuya　Miura",
-  role: "Full Stack Developer",
-  bio: "Building scalable web applications and exploring new technologies.",
+  name: "Tatsuya Miura",
+  role: "Full Stack Engineer",
+  bio: "Building applications with React and IoT systems with Arduino.",
   skills: {
     languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
-    frontend: ["React", "Tailwind CSS"],
-    backend: ["Node.js", "vite", "MySQL"],
-    Infrastructure: ["Cloudflare", "Docker", "AWS", "Kubernetes"],
+    frontend: ["React", "Next.js", "Tailwind CSS"],
+    backend: ["Node.js", "Express", "PostgreSQL"],
+    Infrastructure: ["Git", "Docker", "AWS"],
   },
   projects: [
     {
-      name: "OPENEssex menber website",
+      name: "Music App",
       tech: ["React", "TypeScript", "Vite"],
-      desc: "OpenEssexのメンバー限定公式ウェブサイト",
-      link: "https://github.com/tatsuya/portfolio-v2",
+      desc: "Music application using React and Cloudflare R2 storage.",
+      link: "https://github.com/TatsuyaM2667/FluxAudio-MusicApp",
     },
     {
       name: "tech-blog",
       tech: ["Next.js", "Tailwind", "MDX"],
-      desc: "Technical blog with deep dives into web development and architecture.",
+      desc: "Technical blog about web development and architecture.",
       link: "https://github.com/tatsuya/tech-blog",
     },
   ],
   experiences: [
     {
-      period: "2023 - Present",
-      role: "Senior Software Engineer",
-      company: "TechCorp",
-      desc: "Leading frontend development for a cloud-native platform.",
+      period: "2025",
+      role: "CTO",
+      company: "Hosei 2nd High School Physics Club",
+      desc: "National Runner-up in the Space Koshien CanSat division.",
+    },
+    {
+      period: "2026-Present",
+      role: "PM",
+      company: "SKYS",
+      desc: "Web development and architecture development.",
     },
   ],
   contact: {
     github: "https://github.com/TatsuyaM2667",
     LinkedIn: "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
-    email: "hello@tatsuya.dev",
+    email: "tatsuyamiura2667@gmail.com",
   },
 };
 
@@ -51,10 +57,10 @@ export const portfolioDataJp: PortfolioData = {
   },
   projects: [
     {
-      name: "portfolio-v2",
+      name: "Music App",
       tech: ["React", "TypeScript", "Vite"],
-      desc: "インタラクティブなCLI機能を備えたターミナル風ポートフォリオ。",
-      link: "https://github.com/tatsuya/portfolio-v2",
+      desc: "ReactとCloudflare R2ストレージを使用した音楽アプリケーション",
+      link: "https://github.com/TatsuyaM2667/FluxAudio-MusicApp",
     },
     {
       name: "tech-blog",
