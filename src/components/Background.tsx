@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-const MatrixBackground = () => {
+const Background = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -15,31 +15,49 @@ const MatrixBackground = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const count = 2000;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+    // Group to hold everything
+    const group = new THREE.Group();
+    scene.add(group);
 
-    for (let i = 0; i < count * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 10;
-      colors[i] = Math.random();
+    // Digital Grid
+    const gridHelper = new THREE.GridHelper(20, 40, 0x7aa2f7, 0x24283b);
+    gridHelper.position.y = -2;
+    group.add(gridHelper);
+
+    // Floating Cubes
+    const cubes: THREE.Mesh[] = [];
+    const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+    
+    for (let i = 0; i < 50; i++) {
+      const material = new THREE.MeshPhongMaterial({
+        color: i % 2 === 0 ? 0xbb9af7 : 0x73daca,
+        transparent: true,
+        opacity: 0.4,
+        shininess: 100
+      });
+      const cube = new THREE.Mesh(geometry, material);
+      
+      cube.position.set(
+        (Math.random() - 0.5) * 15,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10
+      );
+      
+      cube.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      group.add(cube);
+      cubes.push(cube);
     }
 
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
 
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.6,
-    });
+    const pointLight = new THREE.PointLight(0x7aa2f7, 2, 50);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
 
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
-
-    camera.position.z = 3;
+    camera.position.z = 5;
+    camera.position.y = 1;
 
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -49,10 +67,28 @@ const MatrixBackground = () => {
 
     window.addEventListener('resize', handleResize);
 
+    // Mouse movement effect
+    let mouseX = 0;
+    let mouseY = 0;
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth - 0.5) * 0.5;
+      mouseY = (event.clientY / window.innerHeight - 0.5) * 0.5;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
     const animate = () => {
       requestAnimationFrame(animate);
-      particles.rotation.y += 0.001;
-      particles.rotation.x += 0.0005;
+      
+      group.rotation.y += 0.001;
+      group.rotation.x += (mouseY - group.rotation.x) * 0.05;
+      group.rotation.y += (mouseX - group.rotation.y) * 0.05;
+
+      cubes.forEach((cube, i) => {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        cube.position.y += Math.sin(Date.now() * 0.001 + i) * 0.002;
+      });
+
       renderer.render(scene, camera);
     };
 
@@ -60,13 +96,14 @@ const MatrixBackground = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
       containerRef.current?.removeChild(renderer.domElement);
-      particlesGeometry.dispose();
-      particlesMaterial.dispose();
+      geometry.dispose();
+      cubes.forEach(c => (c.material as THREE.Material).dispose());
     };
   }, []);
 
-  return <div ref={containerRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: -1, width: '100vw', height: '100vh', pointerEvents: 'none' }} />;
+  return <div ref={containerRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: -1, width: '100vw', height: '100vh', pointerEvents: 'none', background: 'radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%)' }} />;
 };
 
-export default MatrixBackground;
+export default Background;
