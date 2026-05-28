@@ -52,7 +52,7 @@ export const portfolioDataJp: PortfolioData = {
   skills: {
     languages: ["TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Next.js", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "PostgreSQL"],
+    backend: ["Node.js", "Express", "MySQL"],
     Infrastructure: ["Git", "Docker", "AWS"],
   },
   projects: [

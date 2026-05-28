@@ -1,30 +1,50 @@
 :root {
-  --text: #a9b1d6;
-  --text-h: #7aa2f7;
+  --text: #e0e6f4; /* Brighter text */
+  --text-h: #89ddff; /* Brighter heading */
   --bg: transparent;
-  --border: rgba(255, 255, 255, 0.1);
-  --code-bg: rgba(65, 72, 104, 0.3);
-  --accent: #bb9af7;
-  --accent-bg: rgba(187, 154, 247, 0.1);
-  --accent-border: rgba(187, 154, 247, 0.5);
-  --prompt: #73daca;
-  --success: #9ece6a;
-  --error: #f7768e;
-  --shadow: rgba(0, 0, 0, 0.5) 0 10px 30px;
-
+  --border: rgba(255, 255, 255, 0.15);
+  --code-bg: rgba(65, 72, 104, 0.4);
+  --accent: #c099ff;
+  --accent-bg: rgba(192, 153, 255, 0.15);
+  --accent-border: rgba(192, 153, 255, 0.5);
+  --prompt: #89ddff;
+  --success: #c3e88d;
+  --error: #ff5370;
+  --shadow: rgba(0, 0, 0, 0.6) 0 10px 40px;
   --mono: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+}
 
-  font: 16px/1.6 var(--mono);
-  color-scheme: dark;
-  color: var(--text);
-  background: transparent;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Tokyo Night (Default) - Brighter */
+[data-theme='tokyo'] {
+  --text: #e0e6f4;
+  --text-h: #89ddff;
+  --accent: #c099ff;
+  --prompt: #89ddff;
+  --success: #c3e88d;
+}
+
+/* Matrix (Green) - Brighter */
+[data-theme='matrix'] {
+  --text: #d0ffd0;
+  --text-h: #00ff41;
+  --accent: #00ff41;
+  --prompt: #00ff41;
+  --success: #00ff41;
+  --border: rgba(0, 255, 65, 0.3);
+}
+
+/* Dracula (Purple) - Brighter */
+[data-theme='dracula'] {
+  --text: #ffffff;
+  --text-h: #bd93f9;
+  --accent: #ff79c6;
+  --prompt: #50fa7b;
+  --success: #50fa7b;
 }
 
 html {
   background: #0a0b10;
+  color: var(--text); /* Set global color here */
 }
 
 body {
@@ -34,6 +54,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: transparent;
+  color: var(--text); /* Ensure body has the color */
+  font-family: var(--mono);
 }
 
 #root {
