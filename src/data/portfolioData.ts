@@ -120,8 +120,8 @@ export const portfolioDataJp: PortfolioData = {
   ],
   research: [
     {
-      title: "分散システムとエッジコンピューティング",
-      desc: "分散エッジノード向けの効率的な同期アルゴリズムの研究",
+      title: "Next-Generation Green AI Inference Server Research Plan ",
+      desc: "Go、Rust、Pythonを組み合わせることで、低遅延かつ省電力な次世代AI推論サーバーの構築を目指す研究開発計画",
     },
     {
       title: "RustベースのOSカーネル",
