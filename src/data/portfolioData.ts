@@ -121,7 +121,7 @@ export const portfolioDataJp: PortfolioData = {
   research: [
     {
       title: "Next-Generation Green AI Inference Server Research Plan ",
-      desc: "Go、Rust、Pythonを組み合わせることで、低遅延かつ省電力な次世代AI推論サーバーの構築を目指す研究開発計画",
+      desc: "低遅延かつ省電力な次世代AI推論サーバーの構築を目指す研究開発計画",
     },
     {
       title: "RustベースのOSカーネル",
