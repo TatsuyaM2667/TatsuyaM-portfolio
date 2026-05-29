@@ -50,9 +50,6 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
     // Colors
     const colorPrimary = 0xffcc33;
     const colorSecondary = 0x7aa2f7;
-    const colorTertiary = 0x73daca;
-    const colorSummerSky = 0x87ceeb;
-    const colorUyuniSky = 0x0a0b1e;
     const colorCloud = 0xffffff;
 
     if (types.includes('uyuni')) {
