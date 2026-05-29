@@ -131,7 +131,7 @@ export const portfolioDataJp: PortfolioData = {
   education: [
     {
       period: "2023 - 2026",
-      degree: "普通科卒業",
+      degree: "高校（普通科）卒業",
       institution: "法政大学第二高等学校",
     },
     {
