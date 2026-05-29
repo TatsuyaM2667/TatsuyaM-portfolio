@@ -97,7 +97,7 @@ input::selection {
 }
 
 .terminal-content {
-  max-height: 70vh;
+  max-height: 75vh;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
@@ -106,11 +106,14 @@ input::selection {
 @media (max-width: 600px) {
   .terminal-nav {
     width: 100%;
+    gap: 0.25rem;
   }
   
   .terminal-nav button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    flex: 1;
+    text-align: center;
   }
 
   .terminal-title {
@@ -118,21 +121,31 @@ input::selection {
   }
 
   .terminal-header {
-    padding: 10px 15px;
+    padding: 8px 12px;
   }
 
   header {
     flex-direction: column;
-    align-items: flex-start !important;
+    align-items: stretch !important;
     gap: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .lang-switcher {
-    align-self: flex-end;
+    justify-content: flex-end;
   }
 
   .terminal-content {
     padding: 1rem !important;
+    max-height: none; /* Let it expand or use a larger percentage */
+    flex: 1;
+  }
+
+  .app-container {
+    gap: 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 }
 

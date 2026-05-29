@@ -392,7 +392,17 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
   return (
     <div 
       ref={containerRef} 
-      style={{ position: 'fixed', top: 0, left: 0, zIndex: -1, width: '100vw', height: '100vh', pointerEvents: 'none' }} 
+      style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        zIndex: -1, 
+        width: '100%', 
+        height: '100%', 
+        minHeight: '100vh',
+        pointerEvents: 'none',
+        overflow: 'hidden'
+      }} 
     />
   );
 };
