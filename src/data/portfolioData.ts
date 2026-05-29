@@ -40,6 +40,16 @@ export const portfolioDataEn: PortfolioData = {
       desc: "Web development and architecture development.",
     },
   ],
+  research: [
+    {
+      title: "Distributed Systems & Edge Computing",
+      desc: "Investigating efficient synchronization algorithms for distributed edge nodes.",
+    },
+    {
+      title: "Rust-based OS Kernels",
+      desc: "Deep dive into memory safety and concurrency models in operating system design.",
+    },
+  ],
   education: [
     {
       period: "2023 - 2026",
@@ -76,7 +86,15 @@ export const portfolioDataJp: PortfolioData = {
     languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Next.js", "Tailwind CSS"],
     backend: ["Node.js", "Vite", "MySQL"],
-    Infrastructure: ["Git", "Docker", "Tailscale", "GCP", "AWS"],
+    Infrastructure: [
+      "Cloudflare",
+      "Firebase",
+      "Git",
+      "Docker",
+      "Tailscale",
+      "GCP",
+      "AWS",
+    ],
   },
   projects: [
     {
@@ -98,6 +116,16 @@ export const portfolioDataJp: PortfolioData = {
       role: "PM",
       company: "SKYS",
       desc: "Web開発とアーキテクチャ開発",
+    },
+  ],
+  research: [
+    {
+      title: "分散システムとエッジコンピューティング",
+      desc: "分散エッジノード向けの効率的な同期アルゴリズムの研究",
+    },
+    {
+      title: "RustベースのOSカーネル",
+      desc: "オペレーティングシステム設計におけるメモリ安全性と並行性モデルの深掘り",
     },
   ],
   education: [

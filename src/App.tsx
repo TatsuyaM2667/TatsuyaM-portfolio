@@ -3,12 +3,13 @@ import TerminalWindow from "./components/TerminalWindow";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Experience from "./pages/Experience";
+import Research from "./pages/Research";
 import Background from "./components/Background";
 import Typewriter from "./components/Typewriter";
 import { useLanguage, LanguageProvider } from "./hooks/useLanguage";
 import "./App.css";
 
-type Page = "home" | "projects" | "experience";
+type Page = "home" | "projects" | "experience" | "research";
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -45,7 +46,7 @@ function AppContent() {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, firstfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, sudo pacman, exit, secret",
+          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, sudo pacman, exit, secret",
         ]);
         break;
       case "bg":
@@ -114,7 +115,7 @@ function AppContent() {
       case "ls":
         setCommandHistory((prev) => [
           ...prev,
-          "home/  projects/  experience/  bio.txt  skills.json  education.md  awards.md  publications.md",
+          "home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
         ]);
         break;
       case "cd": {
@@ -136,6 +137,12 @@ function AppContent() {
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/experience",
+          ]);
+        } else if (path === "research") {
+          setCurrentPage("research");
+          setCommandHistory((prev) => [
+            ...prev,
+            "Changed directory to ~/research",
           ]);
         } else {
           setCommandHistory((prev) => [
@@ -171,6 +178,14 @@ function AppContent() {
             t.publications?.map((p) => `- ${p.title} (${p.year})`).join("\n") ||
             "No publication records.";
           setCommandHistory((prev) => [...prev, pubStr]);
+        } else if (file?.startsWith("research/")) {
+          const researchTitle = file.replace("research/", "").replace(".md", "").replace(/"/g, "");
+          const research = t.research?.find(r => r.title === researchTitle);
+          if (research) {
+            setCommandHistory((prev) => [...prev, research.desc]);
+          } else {
+            setCommandHistory((prev) => [...prev, `cat: ${file}: No such file or directory`]);
+          }
         } else if (!file) {
           setCommandHistory((prev) => [...prev, "cat: missing operand"]);
         } else {
@@ -181,15 +196,17 @@ function AppContent() {
         }
         break;
       }
-      case "firstfetch":
+      case "fastfetch":
         setCommandHistory((prev) => [
           ...prev,
-          "OS: Arch Linux",
-          `Host: ${t.name}-IdeaPad Slim 3`,
-          "Kernel: Linux 6.18.33-1-lts",
-          "Shell: ghostty 1.3.1-arch2",
-          "WM: Sway",
-          "Theme: Tokyo Night",
+          `       /\\         ${t.name}@dev`,
+          `      /  \\        ${"-".repeat(`${t.name}@dev`.length)}`,
+          `     /    \\       OS: Arch Linux x86_64`,
+          `    /      \\      Host: ${t.name}-IdeaPad Slim 3`,
+          `   /   ,,   \\     Kernel: 6.18.33-1-lts`,
+          `  /   |  |   \\    Shell: ghostty 1.3.1-arch2`,
+          ` /   -''-   \\   WM: Sway`,
+          `/____________\\    Theme: Tokyo Night`,
         ]);
         break;
       case "ssh":
@@ -332,6 +349,8 @@ function AppContent() {
         return <Projects />;
       case "experience":
         return <Experience />;
+      case "research":
+        return <Research />;
       default:
         return <Home />;
     }
@@ -350,7 +369,7 @@ function AppContent() {
           }}
         >
           <nav className="terminal-nav" style={{ marginBottom: 0 }}>
-            {["home", "projects", "experience"].map((p) => (
+            {["home", "projects", "experience", "research"].map((p) => (
               <button
                 key={p}
                 onClick={() => setCurrentPage(p as Page)}

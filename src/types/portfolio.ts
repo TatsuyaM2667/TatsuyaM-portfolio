@@ -19,6 +19,11 @@ export interface Skills {
   Infrastructure: string[];
 }
 
+export interface Research {
+  title: string;
+  desc: string;
+}
+
 export interface PortfolioData {
   name: string;
   role: string;
@@ -26,6 +31,7 @@ export interface PortfolioData {
   skills: Skills;
   projects: Project[];
   experiences: Experience[];
+  research?: Research[];
   education?: {
     period: string;
     degree: string;
