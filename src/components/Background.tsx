@@ -167,11 +167,10 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
     if (types.includes('cubes')) {
       const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
       for (let i = 0; i < 60; i++) {
-        const material = new THREE.MeshPhongMaterial({
+        const material = new THREE.MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
-          opacity: 0.25,
-          shininess: 100
+          opacity: 0.6
         });
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set((Math.random() - 0.5) * 15, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);

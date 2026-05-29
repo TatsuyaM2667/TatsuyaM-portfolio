@@ -292,10 +292,15 @@ function AppContent() {
     }
 
     setInputValue("");
-    setTimeout(() => {
-      inputRef.current?.focus();
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 10);
+    
+    // Skip auto-focus on mobile to prevent keyboard popup
+    const isMobile = window.innerWidth < 600;
+    if (!isMobile) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 10);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -335,7 +340,7 @@ function AppContent() {
   return (
     <>
       <Background type={bgType} />
-      <div className="app-container" onClick={() => inputRef.current?.focus()}>
+      <div className="app-container" onClick={() => window.innerWidth >= 600 && inputRef.current?.focus()}>
         <header
           style={{
             display: "flex",
@@ -446,7 +451,7 @@ function AppContent() {
                 width: "100%",
                 marginLeft: "0.5rem",
               }}
-              autoFocus
+              autoFocus={window.innerWidth >= 600}
             />
           </form>
         </TerminalWindow>
