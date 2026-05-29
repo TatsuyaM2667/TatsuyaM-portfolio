@@ -24,7 +24,13 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
 
     let requestID: number;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const isMobile = window.innerWidth < 600;
+    const camera = new THREE.PerspectiveCamera(
+      isMobile ? 85 : 75, 
+      window.innerWidth / window.innerHeight, 
+      0.1, 
+      1000
+    );
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -394,14 +400,11 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
       ref={containerRef} 
       style={{ 
         position: 'fixed', 
-        top: 0, 
-        left: 0, 
+        inset: 0,
         zIndex: -1, 
-        width: '100%', 
-        height: '100%', 
-        minHeight: '100vh',
         pointerEvents: 'none',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundAttachment: 'fixed'
       }} 
     />
   );
