@@ -11,6 +11,9 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
   useEffect(() => {
     if (!containerRef.current || type === 'none') return;
 
+    // Reset container style
+    containerRef.current.style.background = '';
+
     // Parse types
     const types = type.split('&&').map(t => t.trim());
     
@@ -34,17 +37,123 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
     // Objects references for animation
     const cubes: THREE.Mesh[] = [];
     const stars: THREE.Points[] = [];
+    const clouds: THREE.Group[] = [];
     let waves: THREE.Points | null = null;
     let torus: THREE.Mesh | null = null;
     let sphere: THREE.Mesh | null = null;
     let dots: THREE.Points | null = null;
     let tunnel: THREE.Group | null = null;
+    let sun: THREE.Mesh | null = null;
+    let horizon: THREE.Mesh | null = null;
     const rain: THREE.Points[] = [];
 
     // Colors
-    const colorPrimary = 0xbb9af7;
+    const colorPrimary = 0xffcc33;
     const colorSecondary = 0x7aa2f7;
     const colorTertiary = 0x73daca;
+    const colorSummerSky = 0x87ceeb;
+    const colorUyuniSky = 0x0a0b1e;
+    const colorCloud = 0xffffff;
+
+    if (types.includes('uyuni')) {
+      if (containerRef.current) {
+        // Orangestar style bright blue sky gradient
+        containerRef.current.style.background = 'linear-gradient(to bottom, #0072ff 0%, #00c6ff 50%, #b3e5fc 100%)';
+      }
+
+      // Add a "water/mirror" plane
+      const planeGeometry = new THREE.PlaneGeometry(100, 100);
+      const planeMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.15,
+        shininess: 100,
+        specular: 0xffffff
+      });
+      const mirror = new THREE.Mesh(planeGeometry, planeMaterial);
+      mirror.rotation.x = -Math.PI / 2;
+      mirror.position.y = -4;
+      scene.add(mirror);
+
+      // Add a subtle horizon glow
+      const horizonGeometry = new THREE.PlaneGeometry(100, 2);
+      const horizonMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.4,
+        side: THREE.DoubleSide
+      });
+      horizon = new THREE.Mesh(horizonGeometry, horizonMaterial);
+      horizon.position.set(0, -4, -20);
+      scene.add(horizon);
+    }
+
+    if (types.includes('summer-sky')) {
+      if (containerRef.current) {
+        containerRef.current.style.background = 'linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%)';
+      }
+      
+      // Add Sun
+      const sunGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+      const sunMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0xffffee,
+        transparent: true,
+        opacity: 0.8
+      });
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      sun.position.set(10, 8, -10);
+      scene.add(sun);
+
+      // Add Clouds
+      const cloudCount = 8;
+      for (let i = 0; i < cloudCount; i++) {
+        const cloudGroup = new THREE.Group();
+        const partCount = 5 + Math.floor(Math.random() * 5);
+        for (let j = 0; j < partCount; j++) {
+          const size = 0.5 + Math.random() * 1.5;
+          const partGeo = new THREE.SphereGeometry(size, 16, 16);
+          const partMat = new THREE.MeshPhongMaterial({ 
+            color: colorCloud, 
+            transparent: true, 
+            opacity: 0.8,
+            flatShading: true
+          });
+          const part = new THREE.Mesh(partGeo, partMat);
+          part.position.set(
+            (Math.random() - 0.5) * 3,
+            (Math.random() - 0.5) * 1.5,
+            (Math.random() - 0.5) * 2
+          );
+          cloudGroup.add(part);
+        }
+        cloudGroup.position.set(
+          (Math.random() - 0.5) * 40,
+          2 + Math.random() * 8,
+          -10 - Math.random() * 20
+        );
+        scene.add(cloudGroup);
+        clouds.push(cloudGroup);
+      }
+
+      // Add some "summer sparkles" (heat/pollen/etc)
+      const sparkleGeometry = new THREE.BufferGeometry();
+      const sparkleCount = 200;
+      const sparklePositions = new Float32Array(sparkleCount * 3);
+      for (let i = 0; i < sparkleCount; i++) {
+        sparklePositions[i * 3 + 0] = (Math.random() - 0.5) * 40;
+        sparklePositions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+        sparklePositions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      }
+      sparkleGeometry.setAttribute('position', new THREE.BufferAttribute(sparklePositions, 3));
+      const sparkleMaterial = new THREE.PointsMaterial({ 
+        color: 0xffffff, 
+        size: 0.05, 
+        transparent: true, 
+        opacity: 0.4 
+      });
+      const sparkles = new THREE.Points(sparkleGeometry, sparkleMaterial);
+      group.add(sparkles);
+    }
 
     if (types.includes('grid')) {
       const gridHelper = new THREE.GridHelper(30, 60, colorPrimary, 0x414868);
@@ -56,9 +165,9 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
       const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
       for (let i = 0; i < 60; i++) {
         const material = new THREE.MeshPhongMaterial({
-          color: i % 3 === 0 ? colorPrimary : i % 3 === 1 ? colorSecondary : colorTertiary,
+          color: 0xffffff,
           transparent: true,
-          opacity: 0.6,
+          opacity: 0.25,
           shininess: 100
         });
         const cube = new THREE.Mesh(geometry, material);
@@ -109,7 +218,7 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
 
     if (types.includes('sphere')) {
       const geometry = new THREE.SphereGeometry(3, 32, 32);
-      const material = new THREE.MeshPhongMaterial({ color: colorTertiary, wireframe: true, transparent: true, opacity: 0.3 });
+      const material = new THREE.MeshPhongMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.15 });
       sphere = new THREE.Mesh(geometry, material);
       group.add(sphere);
     }
@@ -196,6 +305,20 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
         cube.rotation.y += 0.01;
         cube.position.y += Math.sin(time + i) * 0.002;
       });
+
+      clouds.forEach((cloud, i) => {
+        cloud.position.x += 0.005 + (i % 3) * 0.002;
+        if (cloud.position.x > 30) cloud.position.x = -30;
+        cloud.position.y += Math.sin(time + i) * 0.001;
+      });
+
+      if (sun) {
+        sun.scale.setScalar(1 + Math.sin(time * 0.5) * 0.05);
+      }
+
+      if (horizon) {
+        horizon.position.y = -4 + Math.sin(time * 0.2) * 0.1;
+      }
 
       stars.forEach(s => { s.rotation.y += 0.0005; });
 

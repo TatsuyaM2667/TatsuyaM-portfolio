@@ -18,7 +18,7 @@ function AppContent() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
-  const [bgType, setBgType] = useState("sphere && stars && cubes && dots");
+  const [bgType, setBgType] = useState("uyuni && sphere && stars && cubes && dots");
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,13 +54,15 @@ function AppContent() {
           setCommandHistory((prev) => [
             ...prev,
             "Usage: bg [type1] && [type2] ...",
-            "Available types: grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
+            "Available types: uyuni, summer-sky, grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
           ]);
           break;
         }
 
         const requestedTypes = fullArg.split("&&").map((t) => t.trim());
         const validTypes = [
+          "uyuni",
+          "summer-sky",
           "grid",
           "stars",
           "cubes",
@@ -86,7 +88,7 @@ function AppContent() {
           setCommandHistory((prev) => [
             ...prev,
             "Invalid type detected.",
-            "Valid types: grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
+            "Valid types: uyuni, summer-sky, grid, stars, cubes, torus, waves, sphere, dots, rain, tunnel, none",
           ]);
         }
         break;

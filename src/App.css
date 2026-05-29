@@ -22,7 +22,7 @@
 
 .terminal-nav button {
   white-space: nowrap;
-  background: rgba(65, 72, 104, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text);
   padding: 0.5rem 1rem;
@@ -34,11 +34,11 @@
 }
 
 .terminal-nav button:hover {
-  background: var(--border);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .terminal-nav button.active {
-  background: var(--accent-bg);
+  background: rgba(137, 221, 255, 0.15);
   border-bottom: 2px solid var(--accent);
   color: var(--accent);
 }

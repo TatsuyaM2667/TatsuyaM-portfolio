@@ -1,25 +1,25 @@
 :root {
-  --text: #e0e6f4; /* Brighter text */
-  --text-h: #89ddff; /* Brighter heading */
+  --text: #e0e6f4;
+  --text-h: #ffffff;
   --bg: transparent;
-  --border: rgba(255, 255, 255, 0.15);
-  --code-bg: rgba(65, 72, 104, 0.4);
-  --accent: #c099ff;
-  --accent-bg: rgba(192, 153, 255, 0.15);
-  --accent-border: rgba(192, 153, 255, 0.5);
-  --prompt: #89ddff;
+  --border: rgba(255, 255, 255, 0.1);
+  --code-bg: rgba(0, 0, 0, 0.2);
+  --accent: #89ddff;
+  --accent-bg: rgba(137, 221, 255, 0.1);
+  --accent-border: rgba(137, 221, 255, 0.3);
+  --prompt: #c3e88d;
   --success: #c3e88d;
   --error: #ff5370;
-  --shadow: rgba(0, 0, 0, 0.6) 0 10px 40px;
+  --shadow: rgba(0, 0, 0, 0.3) 0 20px 50px;
   --mono: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
 }
 
-/* Tokyo Night (Default) - Brighter */
+/* Tokyo Night (Default) - Adjusted for Summer Sky */
 [data-theme='tokyo'] {
   --text: #e0e6f4;
-  --text-h: #89ddff;
-  --accent: #c099ff;
-  --prompt: #89ddff;
+  --text-h: #ffffff;
+  --accent: #ffcc33; /* Soft sunset/summer sun orange */
+  --prompt: #c3e88d;
   --success: #c3e88d;
 }
 
@@ -43,7 +43,7 @@
 }
 
 html {
-  background: radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%);
+  background: linear-gradient(to bottom, #0072ff 0%, #00c6ff 50%, #b3e5fc 100%);
   color: var(--text); /* Set global color here */
 }
 
@@ -89,13 +89,13 @@ pre {
 }
 
 .terminal-window {
-  background: rgba(15, 17, 26, 0.8); /* Increased opacity */
-  backdrop-filter: blur(25px) saturate(200%); /* Stronger blur for frosted effect */
-  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  background: rgba(10, 15, 30, 0.65); /* Darker "Deep Sea" glass for contrast */
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.3),
+    0 25px 60px rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   overflow: hidden;
   display: flex;
@@ -103,7 +103,7 @@ pre {
 }
 
 .terminal-header {
-  background: rgba(30, 34, 51, 0.7); /* Increased opacity header */
+  background: rgba(20, 25, 45, 0.8);
   padding: 14px 20px;
   display: flex;
   align-items: center;
@@ -131,6 +131,11 @@ pre {
 .terminal-content {
   padding: 1.5rem;
   font-family: var(--mono);
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.05) 50%
+  );
+  background-size: 100% 4px;
 }
 
 .prompt {
