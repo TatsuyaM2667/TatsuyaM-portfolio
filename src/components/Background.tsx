@@ -400,10 +400,10 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
       style={{ 
         position: 'fixed', 
         inset: 0,
-        zIndex: -1, 
+        zIndex: -10, 
         pointerEvents: 'none',
         overflow: 'hidden',
-        backgroundAttachment: 'fixed'
+        background: '#0a0b1e'
       }} 
     />
   );

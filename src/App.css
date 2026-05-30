@@ -130,8 +130,18 @@ input::selection {
     flex-direction: column;
     align-items: stretch !important;
     gap: 0.5rem;
-    margin-bottom: 0 !important;
-    padding: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .terminal-nav {
+    background: transparent !important;
+  }
+
+  .terminal-nav button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(4px);
   }
 
   .lang-switcher {
@@ -145,14 +155,14 @@ input::selection {
   }
 
   .app-container {
-    gap: 0;
+    gap: 0.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
     padding-bottom: env(safe-area-inset-bottom);
-    min-height: 100dvh;
+    background: transparent !important;
   }
-
+  }
   .terminal-footer {
     margin-top: 1rem;
     padding-bottom: 0.5rem;
