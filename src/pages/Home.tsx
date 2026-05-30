@@ -19,6 +19,7 @@ const Home: React.FC = () => {
         }}
       ></div>
       <div
+        className="home-profile"
         style={{
           display: "flex",
           alignItems: "center",
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
             border: "2px solid var(--accent)",
           }}
         />
-        <div>
+        <div className="profile-info">
           <p>
             <span className="prompt">$</span>
             <Typewriter text="whoami" speed={30} />
