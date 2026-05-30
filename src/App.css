@@ -162,7 +162,7 @@ input::selection {
     padding-bottom: env(safe-area-inset-bottom);
     background: transparent !important;
   }
-  }
+
   .terminal-footer {
     margin-top: 1rem;
     padding-bottom: 0.5rem;
