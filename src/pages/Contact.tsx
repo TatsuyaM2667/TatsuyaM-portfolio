@@ -1,42 +1,51 @@
 import React from 'react';
 import { useLanguage } from '../hooks/useLanguage';
+import Typewriter from '../components/Typewriter';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
 
   return (
     <div className="page-contact">
-      <p><span className="prompt">$</span> finger tatsuya</p>
+      <p><span className="prompt">$</span> <Typewriter text="finger tatsuya" speed={30} /></p>
       <div className="terminal-status-info">
-        <p>Login: tatsuya          Name: {t.name}</p>
-        <p>Role: {t.role}</p>
-        <p>Location: Colchester, UK / Tokyo, JP</p>
-        <p>--------------------------------------------------</p>
+        <p><Typewriter text={`Login: tatsuya          Name: ${t.name}`} delay={500} /></p>
+        <p><Typewriter text={`Role: ${t.role}`} delay={800} /></p>
+        <p><Typewriter text="Location: Colchester, UK / Tokyo, JP" delay={1100} /></p>
+        <p><Typewriter text="--------------------------------------------------" delay={1300} /></p>
         
         <div className="status-links">
           <p>
-            <span className="status-label">GITHUB:</span>
-            <a href={t.contact.github} target="_blank" rel="noreferrer">{t.contact.github.replace('https://', '')}</a>
+            <span className="status-label"><Typewriter text="GITHUB:" delay={1500} /></span>
+            <a href={t.contact.github} target="_blank" rel="noreferrer">
+              <Typewriter text={t.contact.github.replace('https://', '')} delay={1800} />
+            </a>
           </p>
           <p>
-            <span className="status-label">LINKEDIN:</span>
-            <a href={t.contact.LinkedIn} target="_blank" rel="noreferrer">linkedin.com/in/tatsuya-miura</a>
+            <span className="status-label"><Typewriter text="LINKEDIN:" delay={2000} /></span>
+            <a href={t.contact.LinkedIn} target="_blank" rel="noreferrer">
+              <Typewriter text="linkedin.com/in/tatsuya-miura" delay={2300} />
+            </a>
           </p>
           <p>
-            <span className="status-label">EMAIL:</span>
-            <a href={`mailto:${t.contact.email}`}>{t.contact.email}</a>
+            <span className="status-label"><Typewriter text="EMAIL:" delay={2500} /></span>
+            <a href={`mailto:${t.contact.email}`}>
+              <Typewriter text={t.contact.email} delay={2800} />
+            </a>
           </p>
           {t.contact.orcid && (
             <p>
-              <span className="status-label">ORCID:</span>
-              <a href={t.contact.orcid} target="_blank" rel="noreferrer">{t.contact.orcid.replace('https://orcid.org/', '')}</a>
+              <span className="status-label"><Typewriter text="ORCID:" delay={3000} /></span>
+              <a href={t.contact.orcid} target="_blank" rel="noreferrer">
+                <Typewriter text={t.contact.orcid.replace('https://orcid.org/', '')} delay={3300} />
+              </a>
             </p>
           )}
         </div>
         
-        <p>--------------------------------------------------</p>
-        <p>Status: Available for interesting projects.</p>
-        <p>Plan: Graduate from Essex with first-class honours.</p>
+        <p><Typewriter text="--------------------------------------------------" delay={3500} /></p>
+        <p><Typewriter text="Status: Available for interesting projects." delay={3800} /></p>
+        <p><Typewriter text="Plan: Graduate from Essex with first-class honours." delay={4100} /></p>
       </div>
     </div>
   );

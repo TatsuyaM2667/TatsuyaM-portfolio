@@ -1,38 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
 interface TypewriterProps {
   text: string;
   speed?: number;
   delay?: number;
-  onComplete?: () => void;
   className?: string;
 }
 
-const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 30, delay = 0, onComplete, className }) => {
-  const [displayedText, setDisplayedText] = useState('');
+const Typewriter: React.FC<TypewriterProps> = ({
+  text,
+  speed = 30,
+  delay = 0,
+  className = "",
+}) => {
+  const [displayedText, setDisplayedText] = useState("");
   const [isStarted, setIsStarted] = useState(false);
+  const elementRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsStarted(true);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isStarted) return;
 
-    if (displayedText.length < text.length) {
-      const timer = setTimeout(() => {
-        setDisplayedText(text.substring(0, displayedText.length + 1));
-      }, speed);
-      return () => clearTimeout(timer);
-    } else if (onComplete) {
-      onComplete();
-    }
-  }, [displayedText, text, speed, isStarted, onComplete]);
+    let timeout: NodeJS.Timeout;
+    let i = 0;
 
-  return <span className={className}>{displayedText}</span>;
+    const startTyping = () => {
+      if (i < text.length) {
+        setDisplayedText(text.slice(0, i + 1));
+        i++;
+        timeout = setTimeout(startTyping, speed);
+      }
+    };
+
+    const delayTimeout = setTimeout(startTyping, delay);
+
+    return () => {
+      clearTimeout(delayTimeout);
+      clearTimeout(timeout);
+    };
+  }, [text, speed, delay, isStarted]);
+
+  return (
+    <span ref={elementRef} className={className}>
+      {displayedText}
+      {isStarted && i < text.length && <span className="typing-cursor" />}
+    </span>
+  );
 };
 
 export default Typewriter;
