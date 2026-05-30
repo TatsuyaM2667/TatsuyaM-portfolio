@@ -80,7 +80,7 @@ export const portfolioDataEn: PortfolioData = {
 
 export const portfolioDataJp: PortfolioData = {
   name: "Tatsuya Miura",
-  role: "フルスタックエンジニア",
+  role: "Full Stack Engineer",
   bio: "Reactを使用したアプリケーション構築とArduinoを使用したIoTシステムの構築。",
   skills: {
     languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
