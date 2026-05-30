@@ -46,7 +46,29 @@ function AppContent() {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls, pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, sudo pacman, exit, secret",
+          "Available commands: help, cd [page], ls [-a], pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, cmatrix, coffee, sudo pacman, exit, secret",
+        ]);
+        break;
+      case "cmatrix":
+        setTheme("matrix");
+        setCommandHistory((prev) => [
+          ...prev,
+          "Wake up, Neo...",
+          "The Matrix has you...",
+          "Follow the white rabbit.",
+        ]);
+        break;
+      case "coffee":
+        setCommandHistory((prev) => [
+          ...prev,
+          "    (  )   (  )",
+          "     ) (    ) (",
+          "   ___________",
+          "  |           | )",
+          "  |  COFFEE   | |",
+          "  |           | )",
+          "  |___________|/",
+          "Freshly brewed British tea (or coffee) is served!",
         ]);
         break;
       case "bg":
@@ -113,10 +135,17 @@ function AppContent() {
         setCommandHistory((prev) => [...prev, `${t.name} - ${t.role}`]);
         break;
       case "ls":
-        setCommandHistory((prev) => [
-          ...prev,
-          "home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
-        ]);
+        if (args[1] === "-a") {
+          setCommandHistory((prev) => [
+            ...prev,
+            ".  ..  .secret_vault  home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
+          ]);
+        } else {
+          setCommandHistory((prev) => [
+            ...prev,
+            "home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
+          ]);
+        }
         break;
       case "cd": {
         let path = args[1] || "";
@@ -156,6 +185,13 @@ function AppContent() {
         const file = args[1];
         if (file === "bio.txt") {
           setCommandHistory((prev) => [...prev, t.bio]);
+        } else if (file === ".secret_vault") {
+          setCommandHistory((prev) => [
+            ...prev,
+            "Congratulations on finding the vault!",
+            "Did you know? Essex is one of the top research universities in the UK.",
+            "Always keep exploring. Cheers! 🇬🇧",
+          ]);
         } else if (file === "skills.json") {
           setCommandHistory((prev) => [
             ...prev,
@@ -266,7 +302,8 @@ function AppContent() {
         if (cmd === "sudo rm -rf /") {
           setCommandHistory((prev) => [
             ...prev,
-            "⚠️ Nice try! I've already backed up the mainframe. 😎",
+            "Steady on! You can't just delete the entire mainframe, mate.",
+            "That's not very British of you. How about a cup of tea instead? ☕",
           ]);
         } else if (cmd.includes("pacman")) {
           if (cmd.includes("-syu")) {

@@ -2,8 +2,8 @@ import type { PortfolioData } from "../types/portfolio";
 
 export const portfolioDataEn: PortfolioData = {
   name: "Tatsuya Miura",
-  role: "Full Stack Engineer",
-  bio: "Building applications with React and IoT systems with Arduino.",
+  role: "Full-Stack Engineer",
+  bio: "Architecting applications with React and IoT systems with Arduino. Keen on memory-safe systems and distributed architectures.",
   skills: {
     languages: ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
     frontend: ["React", "Tailwind CSS", "Expo"],
@@ -22,32 +22,32 @@ export const portfolioDataEn: PortfolioData = {
     {
       name: "Music App",
       tech: ["React", "TypeScript", "Vite"],
-      desc: "Music application using React and Cloudflare R2 storage.",
+      desc: "Music application utilising React and Cloudflare R2 storage.",
       link: "https://github.com/TatsuyaM2667/FluxAudio-MusicApp",
     },
     {
       name: "Rust_OS",
       tech: ["Rust"],
-      desc: "Rust製のOS",
+      desc: "An operating system kernel written in Rust.",
       link: "https://github.com/TatsuyaM2667/Rust_os",
     },
   ],
   experiences: [
     {
       period: "2026-Present",
-      role: "ProjectManager",
+      role: "Project Manager",
       company: "SKYS",
-      desc: "Web development and architecture development.",
+      desc: "Lead web development and architectural design for scalable systems.",
     },
   ],
   research: [
     {
       title: "Distributed Systems & Edge Computing",
-      desc: "Investigating efficient synchronization algorithms for distributed edge nodes.",
+      desc: "Investigating efficient synchronisation algorithms for distributed edge nodes.",
     },
     {
       title: "Rust-based OS Kernels",
-      desc: "Deep dive into memory safety and concurrency models in operating system design.",
+      desc: "A deep dive into memory safety and concurrency models in operating system design.",
     },
   ],
   education: [
@@ -57,8 +57,8 @@ export const portfolioDataEn: PortfolioData = {
       institution: "Hosei University Second High School",
     },
     {
-      period: "2026 -",
-      degree: "SAK Computer Science",
+      period: "2026 - Present",
+      degree: "BSc Computer Science",
       institution: "University of Essex",
     },
   ],
@@ -66,7 +66,7 @@ export const portfolioDataEn: PortfolioData = {
     {
       date: "2025",
       title: "National Runner-up in Space Koshien CanSat division",
-      desc: "Awarded as CTO of the Physics Club.",
+      desc: "Awarded whilst serving as CTO of the Physics Club.",
     },
   ],
 

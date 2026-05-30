@@ -101,6 +101,7 @@ input::selection {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
+  padding: 1.5rem;
 }
 
 @media (max-width: 600px) {
