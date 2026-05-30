@@ -129,9 +129,9 @@ input::selection {
   header {
     flex-direction: column;
     align-items: stretch !important;
-    gap: 0.8rem;
-    margin-bottom: 0.5rem;
-    padding: 0 0.5rem;
+    gap: 0.5rem;
+    margin-bottom: 0 !important;
+    padding: 0.5rem !important;
   }
 
   .lang-switcher {
@@ -145,11 +145,17 @@ input::selection {
   }
 
   .app-container {
-    gap: 0.5rem;
+    gap: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-bottom: 1rem;
+    padding-bottom: env(safe-area-inset-bottom);
+    min-height: 100dvh;
+  }
+
+  .terminal-footer {
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
   }
 }
 
