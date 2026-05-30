@@ -179,6 +179,22 @@ const Home: React.FC = () => {
           </div>
         </section>
       )}
+
+      {t.hobbies && (
+        <section style={{ marginTop: "2rem" }}>
+          <p>
+            <span className="prompt">$</span>
+            <Typewriter text="ls hobbies/" speed={30} delay={9500} />
+          </p>
+          <div style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.8rem" }}>
+            {t.hobbies.map((hobby, index) => (
+              <span key={index} className="skill-tag">
+                <Typewriter text={hobby} delay={10000 + index * 200} speed={20} />
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

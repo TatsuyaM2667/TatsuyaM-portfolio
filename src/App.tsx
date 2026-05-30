@@ -4,12 +4,14 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Experience from "./pages/Experience";
 import Research from "./pages/Research";
+import Skills from "./pages/Skills";
+import Contact from "./pages/Contact";
 import Background from "./components/Background";
 import Typewriter from "./components/Typewriter";
 import { useLanguage, LanguageProvider } from "./hooks/useLanguage";
 import "./App.css";
 
-type Page = "home" | "projects" | "experience" | "research";
+type Page = "home" | "skills" | "projects" | "experience" | "research" | "contact";
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -46,7 +48,7 @@ function AppContent() {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls [-a], pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, cmatrix, coffee, sudo pacman, exit, secret",
+          "Available commands: help, cd [page], ls [-a], pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, cmatrix, coffee, skills, contact, history, sudo pacman, exit, secret",
         ]);
         break;
       case "cmatrix":
@@ -138,12 +140,12 @@ function AppContent() {
         if (args[1] === "-a") {
           setCommandHistory((prev) => [
             ...prev,
-            ".  ..  .secret_vault  home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
+            ".  ..  .secret_vault  home/  skills/  projects/  experience/  research/  contact/  bio.txt  skills.json  education.md  awards.md  publications.md",
           ]);
         } else {
           setCommandHistory((prev) => [
             ...prev,
-            "home/  projects/  experience/  research/  bio.txt  skills.json  education.md  awards.md  publications.md",
+            "home/  skills/  projects/  experience/  research/  contact/  bio.txt  skills.json  education.md  awards.md  publications.md",
           ]);
         }
         break;
@@ -160,6 +162,18 @@ function AppContent() {
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/projects",
+          ]);
+        } else if (path === "skills") {
+          setCurrentPage("skills");
+          setCommandHistory((prev) => [
+            ...prev,
+            "Changed directory to ~/skills",
+          ]);
+        } else if (path === "contact") {
+          setCurrentPage("contact");
+          setCommandHistory((prev) => [
+            ...prev,
+            "Changed directory to ~/contact",
           ]);
         } else if (path === "experience") {
           setCurrentPage("experience");
@@ -288,6 +302,17 @@ function AppContent() {
           "🔓 Achievement Unlocked: Terminal Master! 🚀",
         ]);
         break;
+      case "skills":
+        setCurrentPage("skills");
+        setCommandHistory((prev) => [...prev, "Navigating to skills..."]);
+        break;
+      case "contact":
+        setCurrentPage("contact");
+        setCommandHistory((prev) => [...prev, "Navigating to contact..."]);
+        break;
+      case "history":
+        setCommandHistory((prev) => [...prev, ...history.reverse()]);
+        break;
       case "pwd":
         setCommandHistory((prev) => [...prev, `/home/tatsuya/${currentPage}`]);
         break;
@@ -382,12 +407,16 @@ function AppContent() {
     switch (currentPage) {
       case "home":
         return <Home />;
+      case "skills":
+        return <Skills />;
       case "projects":
         return <Projects />;
       case "experience":
         return <Experience />;
       case "research":
         return <Research />;
+      case "contact":
+        return <Contact />;
       default:
         return <Home />;
     }
@@ -406,7 +435,7 @@ function AppContent() {
           }}
         >
           <nav className="terminal-nav" style={{ marginBottom: 0 }}>
-            {["home", "projects", "experience", "research"].map((p) => (
+            {["home", "skills", "projects", "experience", "research", "contact"].map((p) => (
               <button
                 key={p}
                 onClick={() => setCurrentPage(p as Page)}

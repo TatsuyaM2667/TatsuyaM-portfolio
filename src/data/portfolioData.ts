@@ -69,6 +69,7 @@ export const portfolioDataEn: PortfolioData = {
       desc: "Awarded whilst serving as CTO of the Physics Club.",
     },
   ],
+  hobbies: ["Walking", "Reading", "Travelling", "Mountain Climbing"],
 
   contact: {
     github: "https://github.com/TatsuyaM2667",
@@ -147,6 +148,7 @@ export const portfolioDataJp: PortfolioData = {
       desc: "法政二高物理部として受賞",
     },
   ],
+  hobbies: ["散歩", "読書", "旅行", "登山"],
 
   contact: {
     github: "https://github.com/TatsuyaM2667",

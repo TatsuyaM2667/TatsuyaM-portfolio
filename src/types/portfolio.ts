@@ -48,6 +48,7 @@ export interface PortfolioData {
     publisher: string;
     link?: string;
   }[];
+  hobbies?: string[];
   contact: {
     github: string;
     LinkedIn: string;
