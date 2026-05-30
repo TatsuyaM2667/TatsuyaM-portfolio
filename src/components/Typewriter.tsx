@@ -38,7 +38,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
   useEffect(() => {
     if (!isStarted) return;
 
-    let timeout: NodeJS.Timeout;
+    let timeout: any;
     let i = 0;
 
     const startTyping = () => {
@@ -60,7 +60,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
   return (
     <span ref={elementRef} className={className}>
       {displayedText}
-      {isStarted && i < text.length && <span className="typing-cursor" />}
+      {isStarted && displayedText.length < text.length && <span className="typing-cursor" />}
     </span>
   );
 };
