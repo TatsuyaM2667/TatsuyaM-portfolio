@@ -439,12 +439,10 @@ function AppContent() {
     const isMobile = window.innerWidth < 600;
     if (!isMobile) {
       setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.scrollIntoView({ behavior: "smooth" });
+        inputRef.current?.focus({ preventScroll: true });
       }, 10);
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -500,7 +498,10 @@ function AppContent() {
       <Background type={bgType} />
       <div
         className="app-container"
-        onClick={() => window.innerWidth >= 600 && inputRef.current?.focus()}
+        onClick={() =>
+          window.innerWidth >= 600 &&
+          inputRef.current?.focus({ preventScroll: true })
+        }
       >
         <header
           style={{
