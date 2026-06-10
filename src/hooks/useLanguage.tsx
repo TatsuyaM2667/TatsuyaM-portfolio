@@ -1,28 +1,41 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { PortfolioData } from '../types/portfolio';
-import { portfolioDataEn, portfolioDataJp } from '../data/portfolioData';
-
-type Language = 'en' | 'jp';
 
 interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
+  language: string;
+  setLanguage: (lang: string) => void;
   t: PortfolioData;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('jp');
-  const t = language === 'en' ? portfolioDataEn : portfolioDataJp;
+  const { i18n } = useTranslation();
+  
+  // Get the translations for the current language.
+  // i18n.resolvedLanguage is the language that was actually found in resources.
+  const t = (i18n.getResourceBundle(i18n.resolvedLanguage || i18n.language, 'translation') || 
+             i18n.getResourceBundle('en', 'translation')) as PortfolioData;
+
+  const setLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
+  const contextValue: LanguageContextType = {
+    language: i18n.resolvedLanguage || i18n.language,
+    setLanguage,
+    t
+  };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) throw new Error('useLanguage must be used within a LanguageProvider');

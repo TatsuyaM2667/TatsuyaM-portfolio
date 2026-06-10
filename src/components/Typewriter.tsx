@@ -38,7 +38,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
   useEffect(() => {
     if (!isStarted) return;
 
-    let timeout: any;
+    let timeout: ReturnType<typeof setTimeout>;
     let i = 0;
 
     const startTyping = () => {

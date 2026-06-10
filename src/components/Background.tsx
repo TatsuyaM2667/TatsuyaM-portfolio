@@ -9,10 +9,11 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current || type === 'none') return;
+    const currentContainer = containerRef.current;
+    if (!currentContainer || type === 'none') return;
 
     // Reset container style
-    containerRef.current.style.background = '';
+    currentContainer.style.background = '';
 
     // Parse types
     const types = type.split('&&').map(t => t.trim());
@@ -35,7 +36,7 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
     
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    currentContainer.appendChild(renderer.domElement);
 
     const group = new THREE.Group();
     scene.add(group);
@@ -59,9 +60,9 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
     const colorCloud = 0xffffff;
 
     if (types.includes('uyuni')) {
-      if (containerRef.current) {
+      if (currentContainer) {
         // Orangestar style bright blue sky gradient
-        containerRef.current.style.background = 'linear-gradient(to bottom, #0072ff 0%, #00c6ff 50%, #b3e5fc 100%)';
+        currentContainer.style.background = 'linear-gradient(to bottom, #0072ff 0%, #00c6ff 50%, #b3e5fc 100%)';
       }
 
       // Add a "water/mirror" plane
@@ -376,8 +377,8 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
       cancelAnimationFrame(requestID);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (currentContainer && renderer.domElement) {
+        currentContainer.removeChild(renderer.domElement);
       }
       
       scene.traverse((object) => {

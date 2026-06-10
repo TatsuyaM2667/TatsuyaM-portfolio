@@ -35,7 +35,7 @@ function AppContent() {
     if (!fullCmd) return;
 
     // Handle both standard and Japanese full-width spaces
-    const normalizedCmd = fullCmd.replace(/　/g, " ");
+    const normalizedCmd = fullCmd.replace(/ /g, " ");
     const cmd = normalizedCmd.toLowerCase();
     const args = cmd.split(/\s+/);
     const baseCmd = args[0];
@@ -48,9 +48,24 @@ function AppContent() {
       case "help":
         setCommandHistory((prev) => [
           ...prev,
-          "Available commands: help, cd [page], ls [-a], pwd, echo [text], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, cmatrix, coffee, skills, contact, history, sudo pacman, exit, secret",
+          "Available commands: help, cd [page], ls [-a], pwd, echo [text], lang [code], uname [-a], whoami, fastfetch, cat [file], ssh, theme [name], bg [type], clear, date, sl, cmatrix, coffee, skills, contact, history, sudo pacman, exit, secret",
         ]);
         break;
+      case "lang": {
+        const newLang = args[1];
+        const supported = ["en", "ja", "fr", "de", "zh", "ko", "it"];
+        if (supported.includes(newLang)) {
+          setLanguage(newLang);
+          setCommandHistory((prev) => [...prev, `System locale changed to ${newLang}_${newLang === 'ja' ? 'JP' : newLang.toUpperCase()}.UTF-8`]);
+        } else {
+          setCommandHistory((prev) => [
+            ...prev,
+            "Usage: lang [en|ja|fr|de|zh|ko|it]",
+            "Supported locales: en_US, ja_JP, fr_FR, de_DE, zh_CN, ko_KR, it_IT"
+          ]);
+        }
+        break;
+      }
       case "cmatrix":
         setTheme("matrix");
         setCommandHistory((prev) => [
@@ -73,7 +88,7 @@ function AppContent() {
           "Freshly brewed British tea (or coffee) is served!",
         ]);
         break;
-      case "bg":
+      case "bg": {
         const fullArg = args.slice(1).join(" ");
         if (!fullArg) {
           setCommandHistory((prev) => [
@@ -117,6 +132,7 @@ function AppContent() {
           ]);
         }
         break;
+      }
       case "uname":
         if (args[1] === "-a") {
           setCommandHistory((prev) => [
@@ -445,19 +461,46 @@ function AppContent() {
               </button>
             ))}
           </nav>
-          <div className="lang-switcher">
-            <button
-              onClick={() => setLanguage("en")}
-              className={language === "en" ? "active" : ""}
+          <div 
+            className="lang-switcher" 
+            onClick={(e) => e.stopPropagation()}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.50rem', 
+              fontSize: '0.85rem', 
+              background: 'rgba(0,0,0,0.3)',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              border: '1px solid rgba(255,255,255,0.1)'
+            }}
+          >
+            <span style={{ color: 'var(--prompt)', fontWeight: 'bold' }}>$ export LANG=</span>
+            <select 
+              value={language.split('-')[0]} 
+              onChange={(e) => {
+                setLanguage(e.target.value);
+              }}
+              style={{
+                background: '#1a1b26',
+                border: '1px solid var(--prompt)',
+                color: 'var(--text)',
+                fontFamily: 'var(--mono)',
+                cursor: 'pointer',
+                outline: 'none',
+                padding: '2px 4px',
+                borderRadius: '4px',
+                fontSize: '0.85rem'
+              }}
             >
-              EN
-            </button>
-            <button
-              onClick={() => setLanguage("jp")}
-              className={language === "jp" ? "active" : ""}
-            >
-              JP
-            </button>
+              <option value="en">en_US.UTF-8</option>
+              <option value="ja">ja_JP.UTF-8</option>
+              <option value="fr">fr_FR.UTF-8</option>
+              <option value="de">de_DE.UTF-8</option>
+              <option value="zh">zh_CN.UTF-8</option>
+              <option value="ko">ko_KR.UTF-8</option>
+              <option value="it">it_IT.UTF-8</option>
+            </select>
           </div>
         </header>
 
@@ -557,10 +600,7 @@ function AppContent() {
 
         <footer className="terminal-footer">
           <p>
-            © 2026 Tatsuya-PortfolioOS v2.0.0 -{" "}
-            {language === "en"
-              ? "Built with React & Vite"
-              : "React & Viteで構築"}
+            © 2026 Tatsuya-PortfolioOS v2.0.0 - Built with React & Vite
           </p>
         </footer>
       </div>
