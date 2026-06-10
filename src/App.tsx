@@ -11,7 +11,13 @@ import Typewriter from "./components/Typewriter";
 import { useLanguage, LanguageProvider } from "./hooks/useLanguage";
 import "./App.css";
 
-type Page = "home" | "skills" | "projects" | "experience" | "research" | "contact";
+type Page =
+  | "home"
+  | "skills"
+  | "projects"
+  | "experience"
+  | "research"
+  | "contact";
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -21,30 +27,40 @@ function AppContent() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
-  const [bgType, setBgType] = useState("uyuni && sphere && stars && cubes && dots");
+  const [bgType, setBgType] = useState(
+    "uyuni && sphere && stars && cubes && dots",
+  );
   const [isLangOpen, setIsLangOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Scroll to top on mount and page change
   useEffect(() => {
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
+
+    // Focus input without scrolling after a short delay
+    const isMobile = window.innerWidth < 600;
+    if (!isMobile) {
+      setTimeout(() => {
+        inputRef.current?.focus({ preventScroll: true });
+      }, 100);
+    }
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => setIsLangOpen(false);
     if (isLangOpen) {
-      window.addEventListener('click', handleClickOutside);
+      window.addEventListener("click", handleClickOutside);
     }
-    return () => window.removeEventListener('click', handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
   }, [isLangOpen]);
 
   useEffect(() => {
@@ -78,12 +94,15 @@ function AppContent() {
         const supported = ["en", "ja", "fr", "de", "zh", "ko", "it"];
         if (supported.includes(newLang)) {
           setLanguage(newLang);
-          setCommandHistory((prev) => [...prev, `System locale changed to ${newLang}_${newLang === 'ja' ? 'JP' : newLang.toUpperCase()}.UTF-8`]);
+          setCommandHistory((prev) => [
+            ...prev,
+            `System locale changed to ${newLang}_${newLang === "ja" ? "JP" : newLang.toUpperCase()}.UTF-8`,
+          ]);
         } else {
           setCommandHistory((prev) => [
             ...prev,
             "Usage: lang [en|ja|fr|de|zh|ko|it]",
-            "Supported locales: en_US, ja_JP, fr_FR, de_DE, zh_CN, ko_KR, it_IT"
+            "Supported locales: en_US, ja_JP, fr_FR, de_DE, zh_CN, ko_KR, it_IT",
           ]);
         }
         break;
@@ -267,12 +286,18 @@ function AppContent() {
             "No publication records.";
           setCommandHistory((prev) => [...prev, pubStr]);
         } else if (file?.startsWith("research/")) {
-          const researchTitle = file.replace("research/", "").replace(".md", "").replace(/"/g, "");
-          const research = t.research?.find(r => r.title === researchTitle);
+          const researchTitle = file
+            .replace("research/", "")
+            .replace(".md", "")
+            .replace(/"/g, "");
+          const research = t.research?.find((r) => r.title === researchTitle);
           if (research) {
             setCommandHistory((prev) => [...prev, research.desc]);
           } else {
-            setCommandHistory((prev) => [...prev, `cat: ${file}: No such file or directory`]);
+            setCommandHistory((prev) => [
+              ...prev,
+              `cat: ${file}: No such file or directory`,
+            ]);
           }
         } else if (!file) {
           setCommandHistory((prev) => [...prev, "cat: missing operand"]);
@@ -409,7 +434,7 @@ function AppContent() {
     }
 
     setInputValue("");
-    
+
     // Skip auto-focus on mobile to prevent keyboard popup
     const isMobile = window.innerWidth < 600;
     if (!isMobile) {
@@ -461,19 +486,22 @@ function AppContent() {
   };
 
   const languages = [
-    { code: 'en', label: 'en_US.UTF-8' },
-    { code: 'ja', label: 'ja_JP.UTF-8' },
-    { code: 'fr', label: 'fr_FR.UTF-8' },
-    { code: 'de', label: 'de_DE.UTF-8' },
-    { code: 'zh', label: 'zh_CN.UTF-8' },
-    { code: 'ko', label: 'ko_KR.UTF-8' },
-    { code: 'it', label: 'it_IT.UTF-8' },
+    { code: "en", label: "en_US.UTF-8" },
+    { code: "ja", label: "ja_JP.UTF-8" },
+    { code: "fr", label: "fr_FR.UTF-8" },
+    { code: "de", label: "de_DE.UTF-8" },
+    { code: "zh", label: "zh_CN.UTF-8" },
+    { code: "ko", label: "ko_KR.UTF-8" },
+    { code: "it", label: "it_IT.UTF-8" },
   ];
 
   return (
     <>
       <Background type={bgType} />
-      <div className="app-container" onClick={() => window.innerWidth >= 600 && inputRef.current?.focus()}>
+      <div
+        className="app-container"
+        onClick={() => window.innerWidth >= 600 && inputRef.current?.focus()}
+      >
         <header
           style={{
             display: "flex",
@@ -483,11 +511,18 @@ function AppContent() {
             position: "relative",
             zIndex: 1000,
             padding: "0.5rem 0",
-            borderBottom: "1px solid rgba(255,255,255,0.05)"
+            borderBottom: "1px solid rgba(255,255,255,0.05)",
           }}
         >
           <nav className="terminal-nav" style={{ marginBottom: 0 }}>
-            {["home", "skills", "projects", "experience", "research", "contact"].map((p) => (
+            {[
+              "home",
+              "skills",
+              "projects",
+              "experience",
+              "research",
+              "contact",
+            ].map((p) => (
               <button
                 key={p}
                 onClick={() => setCurrentPage(p as Page)}
@@ -497,74 +532,89 @@ function AppContent() {
               </button>
             ))}
           </nav>
-          
-          <div 
-            className="lang-switcher" 
+
+          <div
+            className="lang-switcher"
             onClick={(e) => {
               e.stopPropagation();
               setIsLangOpen(!isLangOpen);
             }}
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              fontSize: '0.75rem', 
-              fontFamily: 'var(--mono)',
-              borderRadius: '4px',
-              overflow: 'visible',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              cursor: 'pointer',
-              position: 'relative'
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "0.75rem",
+              fontFamily: "var(--mono)",
+              borderRadius: "4px",
+              overflow: "visible",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              cursor: "pointer",
+              position: "relative",
             }}
           >
-            <div style={{ 
-              background: 'var(--prompt)', 
-              color: '#1a1b26', 
-              padding: '4px 8px', 
-              fontWeight: 'bold',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              borderTopLeftRadius: '3px',
-              borderBottomLeftRadius: '3px'
-            }}>
-              <span style={{ fontSize: '1rem' }}>🌐</span>
+            <div
+              style={{
+                background: "var(--prompt)",
+                color: "#1a1b26",
+                padding: "4px 8px",
+                fontWeight: "bold",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                borderTopLeftRadius: "3px",
+                borderBottomLeftRadius: "3px",
+              }}
+            >
+              <span style={{ fontSize: "1rem" }}>🌐</span>
               <span>LANG</span>
             </div>
-            <div style={{ 
-              background: 'rgba(255,255,255,0.05)', 
-              padding: '4px 12px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              minWidth: '100px',
-              justifyContent: 'center'
-            }}>
-              <span style={{ color: 'var(--text)', fontSize: '0.85rem' }}>
-                {languages.find(l => l.code === language.split('-')[0])?.label || 'en_US.UTF-8'}
+            <div
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                padding: "4px 12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                minWidth: "100px",
+                justifyContent: "center",
+              }}
+            >
+              <span style={{ color: "var(--text)", fontSize: "0.85rem" }}>
+                {languages.find((l) => l.code === language.split("-")[0])
+                  ?.label || "en_US.UTF-8"}
               </span>
-              <span style={{ opacity: 0.5, transform: isLangOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+              <span
+                style={{
+                  opacity: 0.5,
+                  transform: isLangOpen ? "rotate(180deg)" : "none",
+                  transition: "transform 0.2s",
+                }}
+              >
+                ▾
+              </span>
             </div>
 
             {isLangOpen && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                right: 0,
-                marginTop: '8px',
-                background: 'rgba(26, 27, 38, 0.7)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '4px',
-                padding: '4px',
-                width: '160px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
-                zIndex: 1001,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2px'
-              }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  right: 0,
+                  marginTop: "8px",
+                  background: "rgba(26, 27, 38, 0.7)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "4px",
+                  padding: "4px",
+                  width: "160px",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+                  zIndex: 1001,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "2px",
+                }}
+              >
                 {languages.map((lang) => (
                   <div
                     key={lang.code}
@@ -574,16 +624,29 @@ function AppContent() {
                       setIsLangOpen(false);
                     }}
                     style={{
-                      padding: '6px 12px',
-                      borderRadius: '3px',
-                      cursor: 'pointer',
-                      fontSize: '0.8rem',
-                      color: language.startsWith(lang.code) ? 'var(--prompt)' : 'var(--text)',
-                      background: language.startsWith(lang.code) ? 'rgba(255,255,255,0.05)' : 'transparent',
-                      transition: 'all 0.1s'
+                      padding: "6px 12px",
+                      borderRadius: "3px",
+                      cursor: "pointer",
+                      fontSize: "0.8rem",
+                      color: language.startsWith(lang.code)
+                        ? "var(--prompt)"
+                        : "var(--text)",
+                      background: language.startsWith(lang.code)
+                        ? "rgba(255,255,255,0.05)"
+                        : "transparent",
+                      transition: "all 0.1s",
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = language.startsWith(lang.code) ? 'rgba(255,255,255,0.05)' : 'transparent'}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background =
+                        "rgba(255,255,255,0.1)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = language.startsWith(
+                        lang.code,
+                      )
+                        ? "rgba(255,255,255,0.05)"
+                        : "transparent")
+                    }
                   >
                     {lang.label}
                   </div>
@@ -668,7 +731,6 @@ function AppContent() {
                 width: "100%",
                 marginLeft: "0.5rem",
               }}
-              autoFocus={window.innerWidth >= 600}
             />
           </form>
         </TerminalWindow>
@@ -688,9 +750,7 @@ function AppContent() {
         )}
 
         <footer className="terminal-footer">
-          <p>
-            © 2026 Tatsuya-PortfolioOS v2.0.0 - Built with React & Vite
-          </p>
+          <p>© 2026 Tatsuya-PortfolioOS v2.0.0 - Built with React & Vite</p>
         </footer>
       </div>
     </>
