@@ -26,6 +26,18 @@ function AppContent() {
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Scroll to top on mount and page change
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => setIsLangOpen(false);
