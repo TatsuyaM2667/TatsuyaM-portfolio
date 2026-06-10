@@ -213,33 +213,39 @@ function AppContent() {
 
         if (path === "" || path === "~" || path === "home") {
           setCurrentPage("home");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [...prev, "Changed directory to ~/home"]);
         } else if (path === "projects") {
           setCurrentPage("projects");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/projects",
           ]);
         } else if (path === "skills") {
           setCurrentPage("skills");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/skills",
           ]);
         } else if (path === "contact") {
           setCurrentPage("contact");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/contact",
           ]);
         } else if (path === "experience") {
           setCurrentPage("experience");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/experience",
           ]);
         } else if (path === "research") {
           setCurrentPage("research");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           setCommandHistory((prev) => [
             ...prev,
             "Changed directory to ~/research",
@@ -367,10 +373,12 @@ function AppContent() {
         break;
       case "skills":
         setCurrentPage("skills");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setCommandHistory((prev) => [...prev, "Navigating to skills..."]);
         break;
       case "contact":
         setCurrentPage("contact");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setCommandHistory((prev) => [...prev, "Navigating to contact..."]);
         break;
       case "history":
@@ -516,7 +524,7 @@ function AppContent() {
           }}
         >
           <nav className="terminal-nav" style={{ marginBottom: 0 }}>
-            {[
+            [
               "home",
               "skills",
               "projects",
@@ -526,7 +534,10 @@ function AppContent() {
             ].map((p) => (
               <button
                 key={p}
-                onClick={() => setCurrentPage(p as Page)}
+                onClick={() => {
+                  setCurrentPage(p as Page);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className={currentPage === p ? "active" : ""}
               >
                 ~/{p}
