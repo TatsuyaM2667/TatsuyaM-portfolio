@@ -22,8 +22,18 @@ function AppContent() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
   const [bgType, setBgType] = useState("uyuni && sphere && stars && cubes && dots");
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setIsLangOpen(false);
+    if (isLangOpen) {
+      window.addEventListener('click', handleClickOutside);
+    }
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [isLangOpen]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -438,6 +448,16 @@ function AppContent() {
     }
   };
 
+  const languages = [
+    { code: 'en', label: 'en_US.UTF-8' },
+    { code: 'ja', label: 'ja_JP.UTF-8' },
+    { code: 'fr', label: 'fr_FR.UTF-8' },
+    { code: 'de', label: 'de_DE.UTF-8' },
+    { code: 'zh', label: 'zh_CN.UTF-8' },
+    { code: 'ko', label: 'ko_KR.UTF-8' },
+    { code: 'it', label: 'it_IT.UTF-8' },
+  ];
+
   return (
     <>
       <Background type={bgType} />
@@ -447,7 +467,11 @@ function AppContent() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: "1rem",
+            marginBottom: "2rem",
+            position: "relative",
+            zIndex: 1000,
+            padding: "0.5rem 0",
+            borderBottom: "1px solid rgba(255,255,255,0.05)"
           }}
         >
           <nav className="terminal-nav" style={{ marginBottom: 0 }}>
@@ -461,46 +485,99 @@ function AppContent() {
               </button>
             ))}
           </nav>
+          
           <div 
             className="lang-switcher" 
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLangOpen(!isLangOpen);
+            }}
             style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              gap: '0.50rem', 
-              fontSize: '0.85rem', 
-              background: 'rgba(0,0,0,0.3)',
-              padding: '4px 8px',
+              fontSize: '0.75rem', 
+              fontFamily: 'var(--mono)',
               borderRadius: '4px',
-              border: '1px solid rgba(255,255,255,0.1)'
+              overflow: 'visible',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              cursor: 'pointer',
+              position: 'relative'
             }}
           >
-            <span style={{ color: 'var(--prompt)', fontWeight: 'bold' }}>$ export LANG=</span>
-            <select 
-              value={language.split('-')[0]} 
-              onChange={(e) => {
-                setLanguage(e.target.value);
-              }}
-              style={{
-                background: '#1a1b26',
-                border: '1px solid var(--prompt)',
-                color: 'var(--text)',
-                fontFamily: 'var(--mono)',
-                cursor: 'pointer',
-                outline: 'none',
-                padding: '2px 4px',
+            <div style={{ 
+              background: 'var(--prompt)', 
+              color: '#1a1b26', 
+              padding: '4px 8px', 
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              borderTopLeftRadius: '3px',
+              borderBottomLeftRadius: '3px'
+            }}>
+              <span style={{ fontSize: '1rem' }}>🌐</span>
+              <span>LANG</span>
+            </div>
+            <div style={{ 
+              background: 'rgba(255,255,255,0.05)', 
+              padding: '4px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              minWidth: '100px',
+              justifyContent: 'center'
+            }}>
+              <span style={{ color: 'var(--text)', fontSize: '0.85rem' }}>
+                {languages.find(l => l.code === language.split('-')[0])?.label || 'en_US.UTF-8'}
+              </span>
+              <span style={{ opacity: 0.5, transform: isLangOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+            </div>
+
+            {isLangOpen && (
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                right: 0,
+                marginTop: '8px',
+                background: 'rgba(26, 27, 38, 0.7)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '4px',
-                fontSize: '0.85rem'
-              }}
-            >
-              <option value="en">en_US.UTF-8</option>
-              <option value="ja">ja_JP.UTF-8</option>
-              <option value="fr">fr_FR.UTF-8</option>
-              <option value="de">de_DE.UTF-8</option>
-              <option value="zh">zh_CN.UTF-8</option>
-              <option value="ko">ko_KR.UTF-8</option>
-              <option value="it">it_IT.UTF-8</option>
-            </select>
+                padding: '4px',
+                width: '160px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
+                zIndex: 1001,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px'
+              }}>
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLanguage(lang.code);
+                      setIsLangOpen(false);
+                    }}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '3px',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      color: language.startsWith(lang.code) ? 'var(--prompt)' : 'var(--text)',
+                      background: language.startsWith(lang.code) ? 'rgba(255,255,255,0.05)' : 'transparent',
+                      transition: 'all 0.1s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = language.startsWith(lang.code) ? 'rgba(255,255,255,0.05)' : 'transparent'}
+                  >
+                    {lang.label}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </header>
 
