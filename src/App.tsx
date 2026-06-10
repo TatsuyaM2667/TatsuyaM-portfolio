@@ -526,15 +526,7 @@ function AppContent() {
             gap: "1rem"
           }}
         >
-          <nav className="terminal-nav" style={{ 
-            marginBottom: 0,
-            overflowX: "auto",
-            display: "flex",
-            gap: "0.5rem",
-            paddingBottom: "4px",
-            maxWidth: "100%",
-            scrollbarWidth: "none"
-          }}>
+          <nav className="terminal-nav">
             {[
               "home",
               "skills",
@@ -550,7 +542,6 @@ function AppContent() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className={currentPage === p ? "active" : ""}
-                style={{ flexShrink: 0 }}
               >
                 ~/{p}
               </button>
