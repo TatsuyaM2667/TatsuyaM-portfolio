@@ -24,7 +24,7 @@ function AppContent() {
   const [inputValue, setInputValue] = useState("");
   const [theme, setTheme] = useState("tokyo");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
-  const [history, setHistory] = useState<string[]>([]);
+  const [prevCommands, setPrevCommands] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isSlRunning, setIsSlRunning] = useState(false);
   const [bgType, setBgType] = useState(
@@ -36,8 +36,8 @@ function AppContent() {
 
   // Scroll to top on mount and page change
   useEffect(() => {
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
 
@@ -79,7 +79,7 @@ function AppContent() {
     const baseCmd = args[0];
 
     setCommandHistory((prev) => [...prev, `$ ${fullCmd}`]);
-    setHistory((prev) => [fullCmd, ...prev]);
+    setPrevCommands((prev) => [fullCmd, ...prev]);
     setHistoryIndex(-1);
 
     switch (baseCmd) {
@@ -382,7 +382,7 @@ function AppContent() {
         setCommandHistory((prev) => [...prev, "Navigating to contact..."]);
         break;
       case "history":
-        setCommandHistory((prev) => [...prev, ...history.reverse()]);
+        setCommandHistory((prev) => [...prev, ...[...prevCommands].reverse()]);
         break;
       case "pwd":
         setCommandHistory((prev) => [...prev, `/home/tatsuya/${currentPage}`]);
@@ -439,38 +439,39 @@ function AppContent() {
         break;
       default:
         setCommandHistory((prev) => [...prev, `command not found: ${baseCmd}`]);
-    }
+      }
 
-    setInputValue("");
+      setInputValue("");
 
-    // Skip auto-focus on mobile to prevent keyboard popup
-    const isMobile = window.innerWidth < 600;
-    if (!isMobile) {
+      // Skip auto-focus on mobile to prevent keyboard popup
+      const isMobile = window.innerWidth < 600;
+      if (!isMobile) {
       setTimeout(() => {
         inputRef.current?.focus({ preventScroll: true });
       }, 10);
-    }
-  };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "ArrowUp") {
+      }
+      };
+
+      const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "ArrowUp") {
       e.preventDefault();
-      if (historyIndex < history.length - 1) {
+      if (historyIndex < prevCommands.length - 1) {
         const newIndex = historyIndex + 1;
         setHistoryIndex(newIndex);
-        setInputValue(history[newIndex]);
+        setInputValue(prevCommands[newIndex]);
       }
-    } else if (e.key === "ArrowDown") {
+      } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex > 0) {
         const newIndex = historyIndex - 1;
         setHistoryIndex(newIndex);
-        setInputValue(history[newIndex]);
+        setInputValue(prevCommands[newIndex]);
       } else if (historyIndex === 0) {
         setHistoryIndex(-1);
         setInputValue("");
       }
-    }
-  };
+      }
+      };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -521,10 +522,20 @@ function AppContent() {
             zIndex: 1000,
             padding: "0.5rem 0",
             borderBottom: "1px solid rgba(255,255,255,0.05)",
+            flexWrap: "wrap",
+            gap: "1rem"
           }}
         >
-          <nav className="terminal-nav" style={{ marginBottom: 0 }}>
-            [
+          <nav className="terminal-nav" style={{ 
+            marginBottom: 0,
+            overflowX: "auto",
+            display: "flex",
+            gap: "0.5rem",
+            paddingBottom: "4px",
+            maxWidth: "100%",
+            scrollbarWidth: "none"
+          }}>
+            {[
               "home",
               "skills",
               "projects",
@@ -536,9 +547,10 @@ function AppContent() {
                 key={p}
                 onClick={() => {
                   setCurrentPage(p as Page);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className={currentPage === p ? "active" : ""}
+                style={{ flexShrink: 0 }}
               >
                 ~/{p}
               </button>
@@ -562,6 +574,7 @@ function AppContent() {
               border: "1px solid rgba(255,255,255,0.1)",
               cursor: "pointer",
               position: "relative",
+              marginLeft: "auto"
             }}
           >
             <div
@@ -578,7 +591,7 @@ function AppContent() {
               }}
             >
               <span style={{ fontSize: "1rem" }}>🌐</span>
-              <span>LANG</span>
+              <span className="lang-label">LANG</span>
             </div>
             <div
               style={{
@@ -587,7 +600,7 @@ function AppContent() {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                minWidth: "100px",
+                minWidth: window.innerWidth < 450 ? "auto" : "100px",
                 justifyContent: "center",
               }}
             >
@@ -613,18 +626,18 @@ function AppContent() {
                   top: "100%",
                   right: 0,
                   marginTop: "8px",
-                  background: "rgba(26, 27, 38, 0.7)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  borderRadius: "4px",
-                  padding: "4px",
-                  width: "160px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+                  background: "rgba(26, 27, 38, 0.9)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  borderRadius: "8px",
+                  padding: "6px",
+                  width: "180px",
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.8)",
                   zIndex: 1001,
                   display: "flex",
                   flexDirection: "column",
-                  gap: "2px",
+                  gap: "4px",
                 }}
               >
                 {languages.map((lang) => (
@@ -636,31 +649,35 @@ function AppContent() {
                       setIsLangOpen(false);
                     }}
                     style={{
-                      padding: "6px 12px",
-                      borderRadius: "3px",
+                      padding: "8px 14px",
+                      borderRadius: "6px",
                       cursor: "pointer",
-                      fontSize: "0.8rem",
+                      fontSize: "0.85rem",
                       color: language.startsWith(lang.code)
                         ? "var(--prompt)"
                         : "var(--text)",
                       background: language.startsWith(lang.code)
-                        ? "rgba(255,255,255,0.05)"
+                        ? "rgba(255,255,255,0.08)"
                         : "transparent",
-                      transition: "all 0.1s",
+                      transition: "all 0.2s",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
                     }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.background =
-                        "rgba(255,255,255,0.1)")
+                        "rgba(255,255,255,0.12)")
                     }
                     onMouseLeave={(e) =>
                       (e.currentTarget.style.background = language.startsWith(
                         lang.code,
                       )
-                        ? "rgba(255,255,255,0.05)"
+                        ? "rgba(255,255,255,0.08)"
                         : "transparent")
                     }
                   >
-                    {lang.label}
+                    <span>{lang.label}</span>
+                    {language.startsWith(lang.code) && <span>✓</span>}
                   </div>
                 ))}
               </div>
