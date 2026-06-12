@@ -127,6 +127,11 @@ TatsuyaM-portfolio/
 The portfolio automatically detects your browser language:
 - 🇬🇧 **English** - Default fallback language
 - 🇯🇵 **日本語** - Japanese support
+- 🇫🇷 **Français** - French support
+- 🇩🇪 **Deutsch** - Germany support
+- 🇨🇳 **简体中文** - Chinese support
+- 🇰🇷 **한국어** - Korian support
+- 🇮🇹 **Italiano** - Itarian support
 
 Language detection powered by `i18next-browser-languagedetector`.
 
@@ -195,11 +200,7 @@ We welcome contributions! To contribute:
 4. **Push** to the branch (`git push origin feature/YourFeature`)
 5. **Open** a Pull Request
 
-## 📧 Support
 
-For questions, issues, or suggestions:
-- Open an [Issue](https://github.com/TatsuyaM2667/TatsuyaM-portfolio/issues)
-- Start a [Discussion](https://github.com/TatsuyaM2667/TatsuyaM-portfolio/discussions)
 
 ## 📈 Performance
 
