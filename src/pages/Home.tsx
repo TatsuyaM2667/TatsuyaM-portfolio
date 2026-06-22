@@ -71,7 +71,7 @@ const Home: React.FC = () => {
         </p>
         <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "2rem", alignItems: "center" }}>
           <pre className="ascii-art" style={{ margin: 0, color: "var(--accent)", fontSize: "0.85rem", lineHeight: 1.2 }}>
-            <Typewriter 
+            <Typewriter
               text={`                   -@                
                    .##@               
                   .####@              
@@ -87,8 +87,8 @@ const Home: React.FC = () => {
        /#####h**\`\`       \`**%@####@   
       @H@*\`                    \`*%#@  
      *\`                            \`* `}
-              delay={3800} 
-              speed={2} 
+              delay={3800}
+              speed={2}
             />
           </pre>
           <div>
@@ -111,6 +111,26 @@ const Home: React.FC = () => {
             <p>
               <strong>Shell</strong>:{" "}
               <Typewriter text=" ghostty 1.3.1-arch2" delay={4600} speed={15} />
+            </p>
+            <p>
+              <strong>WM</strong>:{" "}
+              <Typewriter text="Hyprland" delay={4600} speed={15} />
+            </p>
+            <p>
+              <strong>Theme</strong>:{" "}
+              <Typewriter text="Tokyo Night" delay={4600} speed={15} />
+            </p>
+            <p>
+              <strong>Resolution</strong>:{" "}
+              <Typewriter text="1920x1080" delay={4600} speed={15} />
+            </p>
+            <p>
+              <strong>CPU</strong>:{" "}
+              <Typewriter text="AMD Ryzen 7 7735HS with Radeon Graphics (16) @ 4.830GHz" delay={4600} speed={15} />
+            </p>
+            <p>
+              <strong>GPU</strong>:{" "}
+              <Typewriter text="AMD ATI Radeon 680M" delay={4600} speed={15} />
             </p>
           </div>
         </div>
