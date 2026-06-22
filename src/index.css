@@ -95,22 +95,32 @@ pre {
 }
 
 .terminal-window {
-    background: rgba(10, 15, 30, 0.6); /* Slightly more transparent */
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    position: relative;
+    z-index: 1;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
+    overflow: hidden;
     box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.3),
         inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    
-    /* Safari backdrop-filter fixes */
+    /* Safari fixes */
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.terminal-window::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(10, 15, 30, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
@@ -124,13 +134,16 @@ pre {
 
     .terminal-window {
         border-radius: 16px;
-        background: rgba(10, 15, 30, 0.25) !important;
-        backdrop-filter: blur(12px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(4px) saturate(180%) !important;
         border: 1px solid rgba(255, 255, 255, 0.1);
         flex: 0 1 auto;
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
+    }
+    
+    .terminal-window::before {
+        background: rgba(10, 15, 30, 0.25) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
     }
 
     .terminal-content {
