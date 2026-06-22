@@ -110,6 +110,8 @@ pre {
     backface-visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 
 .terminal-window::before {
@@ -123,6 +125,9 @@ pre {
     -webkit-backdrop-filter: blur(20px);
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    opacity: 0.99;
+    mix-blend-mode: normal;
+    will-change: transform, backdrop-filter;
 }
 
 @media (max-width: 600px) {
@@ -144,6 +149,9 @@ pre {
         background: rgba(10, 15, 30, 0.25) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
+        opacity: 0.99;
+        mix-blend-mode: normal;
+        will-change: transform, backdrop-filter;
     }
 
     .terminal-content {

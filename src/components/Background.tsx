@@ -404,7 +404,10 @@ const Background = ({ type = 'grid-cubes' }: BackgroundProps) => {
         zIndex: -10, 
         pointerEvents: 'none',
         overflow: 'hidden',
-        background: '#0a0b1e'
+        background: '#0a0b1e',
+        willChange: 'transform',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)'
       }} 
     />
   );
