@@ -629,6 +629,10 @@ function AppContent() {
                   display: "flex",
                   flexDirection: "column",
                   gap: "4px",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
                 }}
               >
                 {languages.map((lang) => (
