@@ -366,3 +366,16 @@ input::selection {
   background: rgba(137, 221, 255, 0.1);
   box-shadow: 0 0 10px rgba(137, 221, 255, 0.1);
 }
+
+.ascii-art {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+  .ascii-art {
+    display: none !important;
+  }
+}

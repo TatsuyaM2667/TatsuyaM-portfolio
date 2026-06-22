@@ -69,27 +69,50 @@ const Home: React.FC = () => {
           <span className="prompt">$</span>
           <Typewriter text="firstfetch" speed={30} delay={3500} />
         </p>
-        <div style={{ marginTop: "1rem" }}>
-          <p>
-            <strong>OS</strong>:{" "}
-            <Typewriter text="Arch Linux" delay={4000} speed={15} />
-          </p>
-          <p>
-            <strong>Host</strong>:{" "}
-            <Typewriter
-              text={`${t.name}-IdeaPad Slim 3 14ARP10`}
-              delay={4200}
-              speed={15}
+        <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "2rem", alignItems: "center" }}>
+          <pre className="ascii-art" style={{ margin: 0, color: "var(--accent)", fontSize: "0.85rem", lineHeight: 1.2 }}>
+            <Typewriter 
+              text={`                   -@                
+                   .##@               
+                  .####@              
+                  @#####@             
+                . *######@            
+               .##@o@#####@           
+              /############@          
+             /##############@         
+            @######@**%######@        
+           @######\`     %#####o       
+          @######@       ######%      
+        -@#######h       ######@.\`    
+       /#####h**\`\`       \`**%@####@   
+      @H@*\`                    \`*%#@  
+     *\`                            \`* `}
+              delay={3800} 
+              speed={2} 
             />
-          </p>
-          <p>
-            <strong>Kernel</strong>:{" "}
-            <Typewriter text="Linux 6.18.33-1-lts" delay={4400} speed={15} />
-          </p>
-          <p>
-            <strong>Shell</strong>:{" "}
-            <Typewriter text=" ghostty 1.3.1-arch2" delay={4600} speed={15} />
-          </p>
+          </pre>
+          <div>
+            <p>
+              <strong>OS</strong>:{" "}
+              <Typewriter text="Arch Linux" delay={4000} speed={15} />
+            </p>
+            <p>
+              <strong>Host</strong>:{" "}
+              <Typewriter
+                text={`${t.name}-IdeaPad Slim 3 14ARP10`}
+                delay={4200}
+                speed={15}
+              />
+            </p>
+            <p>
+              <strong>Kernel</strong>:{" "}
+              <Typewriter text="Linux 6.18.33-1-lts" delay={4400} speed={15} />
+            </p>
+            <p>
+              <strong>Shell</strong>:{" "}
+              <Typewriter text=" ghostty 1.3.1-arch2" delay={4600} speed={15} />
+            </p>
+          </div>
         </div>
       </section>
 
