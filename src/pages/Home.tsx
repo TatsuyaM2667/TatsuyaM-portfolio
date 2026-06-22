@@ -5,6 +5,28 @@ import { useLanguage } from "../hooks/useLanguage";
 const Home: React.FC = () => {
   const { t, language } = useLanguage();
 
+  const archLogo = [
+    "-`",
+    "                  .o+`",
+    "                 `ooo/",
+    "                `+oooo:",
+    "               `+oooooo:",
+    "               -+oooooo+:",
+    "             `/:-:++oooo+:",
+    "            `/++++/+++++++:",
+    "           `/++++++++++++++:",
+    "          `/+++ooooooooooooo/`",
+    "         ./ooosssso++osssssso+`",
+    "        .oossssso-````/ossssss+`",
+    "       -osssssso.      :ssssssso.",
+    "      :osssssss/        osssso+++.",
+    "     /ossssssss/        +ssssooo/-",
+    "   `/ossssso+/:-        -:/+osssso+-",
+    "  `+sso+:-`                 `.-/+oso:",
+    " `++:.                           `-/+/",
+    " .`                                 `",
+  ].join("\n");
+
   return (
     <div className="page-home" key={language}>
       <div
@@ -69,27 +91,25 @@ const Home: React.FC = () => {
           <span className="prompt">$</span>
           <Typewriter text="firstfetch" speed={30} delay={3500} />
         </p>
-        <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "2rem", alignItems: "center" }}>
-          <pre className="ascii-art" style={{ margin: 0, color: "var(--accent)", fontSize: "0.85rem", lineHeight: 1.2 }}>
-            <Typewriter
-              text={`                   -@                
-                   .##@               
-                  .####@              
-                  @#####@             
-                . *######@            
-               .##@o@#####@           
-              /############@          
-             /##############@         
-            @######@**%######@        
-           @######\`     %#####o       
-          @######@       ######%      
-        -@#######h       ######@.\`    
-       /#####h**\`\`       \`**%@####@   
-      @H@*\`                    \`*%#@  
-     *\`                            \`* `}
-              delay={3800}
-              speed={2}
-            />
+        <div
+          style={{
+            marginTop: "1rem",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "2rem",
+            alignItems: "center",
+          }}
+        >
+          <pre
+            className="ascii-art"
+            style={{
+              margin: 0,
+              color: "var(--accent)",
+              fontSize: "0.85rem",
+              lineHeight: 1.2,
+            }}
+          >
+            <Typewriter text={archLogo} delay={3800} speed={2} />
           </pre>
           <div>
             <p>
@@ -126,7 +146,11 @@ const Home: React.FC = () => {
             </p>
             <p>
               <strong>CPU</strong>:{" "}
-              <Typewriter text="AMD Ryzen 7 7735HS with Radeon Graphics" delay={4600} speed={15} />
+              <Typewriter
+                text="AMD Ryzen 7 7735HS with Radeon Graphics"
+                delay={4600}
+                speed={15}
+              />
             </p>
             <p>
               <strong>GPU</strong>:{" "}
@@ -229,10 +253,21 @@ const Home: React.FC = () => {
             <span className="prompt">$</span>
             <Typewriter text="ls hobbies/" speed={30} delay={9500} />
           </p>
-          <div style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.8rem" }}>
+          <div
+            style={{
+              marginTop: "0.5rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.8rem",
+            }}
+          >
             {t.hobbies.map((hobby, index) => (
               <span key={index} className="skill-tag">
-                <Typewriter text={hobby} delay={10000 + index * 200} speed={20} />
+                <Typewriter
+                  text={hobby}
+                  delay={10000 + index * 200}
+                  speed={20}
+                />
               </span>
             ))}
           </div>
