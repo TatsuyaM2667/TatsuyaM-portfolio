@@ -318,14 +318,25 @@ function AppContent() {
       case "fastfetch":
         setCommandHistory((prev) => [
           ...prev,
-          `       /\\         ${t.name}@dev`,
-          `      /  \\        ${"-".repeat(`${t.name}@dev`.length)}`,
-          `     /    \\       OS: Arch Linux x86_64`,
-          `    /      \\      Host: ${t.name}-IdeaPad Slim 3`,
-          `   /   ,,   \\     Kernel: 6.18.33-1-lts`,
-          `  /   |  |   \\    Shell: ghostty 1.3.1-arch2`,
-          ` /   -''-   \\   WM: Sway`,
-          `/____________\\    Theme: Tokyo Night`,
+          `                   -\``,
+          `                  .o+\``,
+          `                 \`ooo/                  ${t.name}@dev`,
+          `                \`+oooo:                 ${"-".repeat(`${t.name}@dev`.length)}`,
+          `               \`+oooooo:                OS: Arch Linux x86_64`,
+          `               -+oooooo+:               Host: ${t.name}-IdeaPad Slim 3`,
+          `             \`/:-:++oooo+:             Kernel: 6.18.33-1-lts`,
+          `            \`/++++/+++++++:             Shell: ghostty 1.3.1-arch2`,
+          `           \`/++++++++++++++:            WM: Sway`,
+          `          \`/+++ooooooooooooo/\`          Theme: Tokyo Night`,
+          `         ./ooosssso++osssssso+\``,
+          `        .oossssso-\`\`\`\`/ossssss+\``,
+          `       -osssssso.      :ssssssso.`,
+          `      :osssssss/        osssso+++.`,
+          `     /ossssssss/        +ssssooo/-`,
+          `   \`/ossssso+/:-        -:/+osssso+-`,
+          `  \`+sso+:-\`                 \`.-/+oso:`,
+          ` \`++:.                           \`-/+/`,
+          ` .\`                                 \``,
         ]);
         break;
       case "ssh":
