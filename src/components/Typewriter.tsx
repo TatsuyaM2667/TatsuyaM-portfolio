@@ -18,6 +18,18 @@ const Typewriter: React.FC<TypewriterProps> = ({
   const elementRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    // If this Typewriter is inside an element with class "page-home", start immediately
+    if (elementRef.current) {
+      let el: HTMLElement | null = elementRef.current;
+      while (el) {
+        if (el.classList && el.classList.contains("page-home")) {
+          setIsStarted(true);
+          return;
+        }
+        el = el.parentElement;
+      }
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -25,7 +37,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (elementRef.current) {
@@ -60,7 +72,9 @@ const Typewriter: React.FC<TypewriterProps> = ({
   return (
     <span ref={elementRef} className={className}>
       {displayedText}
-      {isStarted && displayedText.length < text.length && <span className="typing-cursor" />}
+      {isStarted && displayedText.length < text.length && (
+        <span className="typing-cursor" />
+      )}
     </span>
   );
 };
