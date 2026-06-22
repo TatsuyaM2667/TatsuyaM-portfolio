@@ -126,7 +126,7 @@ const Home: React.FC = () => {
             </p>
             <p>
               <strong>CPU</strong>:{" "}
-              <Typewriter text="AMD Ryzen 7 7735HS with Radeon Graphics (16) @ 4.830GHz" delay={4600} speed={15} />
+              <Typewriter text="AMD Ryzen 7 7735HS with Radeon Graphics" delay={4600} speed={15} />
             </p>
             <p>
               <strong>GPU</strong>:{" "}
