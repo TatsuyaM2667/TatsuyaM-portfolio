@@ -368,7 +368,7 @@ function AppContent() {
       case "secret":
         setCommandHistory((prev) => [
           ...prev,
-          "🔓 Achievement Unlocked: Terminal Master! 🚀",
+          "🔓 Achievement Unlocked: Terminal Master! ",
         ]);
         break;
       case "skills":
@@ -439,28 +439,28 @@ function AppContent() {
         break;
       default:
         setCommandHistory((prev) => [...prev, `command not found: ${baseCmd}`]);
-      }
+    }
 
-      setInputValue("");
+    setInputValue("");
 
-      // Skip auto-focus on mobile to prevent keyboard popup
-      const isMobile = window.innerWidth < 600;
-      if (!isMobile) {
+    // Skip auto-focus on mobile to prevent keyboard popup
+    const isMobile = window.innerWidth < 600;
+    if (!isMobile) {
       setTimeout(() => {
         inputRef.current?.focus({ preventScroll: true });
       }, 10);
-      }
-      };
+    }
+  };
 
-      const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "ArrowUp") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
       e.preventDefault();
       if (historyIndex < prevCommands.length - 1) {
         const newIndex = historyIndex + 1;
         setHistoryIndex(newIndex);
         setInputValue(prevCommands[newIndex]);
       }
-      } else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex > 0) {
         const newIndex = historyIndex - 1;
@@ -470,8 +470,8 @@ function AppContent() {
         setHistoryIndex(-1);
         setInputValue("");
       }
-      }
-      };
+    }
+  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -660,15 +660,15 @@ function AppContent() {
                       alignItems: "center"
                     }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.background =
-                        "rgba(255,255,255,0.12)")
+                    (e.currentTarget.style.background =
+                      "rgba(255,255,255,0.12)")
                     }
                     onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = language.startsWith(
-                        lang.code,
-                      )
-                        ? "rgba(255,255,255,0.08)"
-                        : "transparent")
+                    (e.currentTarget.style.background = language.startsWith(
+                      lang.code,
+                    )
+                      ? "rgba(255,255,255,0.08)"
+                      : "transparent")
                     }
                   >
                     <span>{lang.label}</span>
@@ -781,10 +781,144 @@ function AppContent() {
   );
 }
 
+function MobileAppContent() {
+  const [currentPage, setCurrentPage] = useState<Page>("home");
+  const [bgType] = useState("uyuni && sphere && stars && cubes && dots");
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+  const [theme] = useState("tokyo");
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setIsLangOpen(false);
+    if (isLangOpen) {
+      window.addEventListener("click", handleClickOutside);
+    }
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, [isLangOpen]);
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case "home": return <Home />;
+      case "skills": return <Skills />;
+      case "projects": return <Projects />;
+      case "experience": return <Experience />;
+      case "research": return <Research />;
+      case "contact": return <Contact />;
+      default: return <Home />;
+    }
+  };
+
+  const languages = [
+    { code: "en", label: "EN" },
+    { code: "ja", label: "JA" },
+    { code: "fr", label: "FR" },
+    { code: "de", label: "DE" },
+    { code: "zh", label: "ZH" },
+    { code: "ko", label: "KO" },
+    { code: "it", label: "IT" },
+  ];
+
+  const pages: Page[] = ["home", "skills", "projects", "experience", "research", "contact"];
+
+  return (
+    <>
+      <Background type={bgType} />
+      <div className="mobile-app-wrapper">
+        <header className="mobile-header">
+          <div className="mobile-title">
+            <span style={{ color: "var(--accent)" }}>tatsuya</span>@dev
+          </div>
+          <div
+            className="mobile-lang-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLangOpen(!isLangOpen);
+            }}
+          >
+            <span>🌐 {languages.find((l) => l.code === language.split("-")[0])?.label || "EN"}</span>
+            {isLangOpen && (
+              <div className="mobile-lang-dropdown">
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className="mobile-lang-item"
+                    style={{
+                      color: language.startsWith(lang.code) ? "var(--prompt)" : "var(--text)"
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLanguage(lang.code);
+                      setIsLangOpen(false);
+                    }}
+                  >
+                    {lang.label} {language.startsWith(lang.code) && "✓"}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </header>
+
+        <main className="mobile-main">
+          <div className="mobile-glass-card">
+            {renderPage()}
+
+            <div className="mobile-socials">
+              <a href={t.contact.github} target="_blank" rel="noreferrer">GitHub</a>
+              <a href={t.contact.LinkedIn} target="_blank" rel="noreferrer">LinkedIn</a>
+              {t.contact.orcid && <a href={t.contact.orcid} target="_blank" rel="noreferrer">ORCID</a>}
+              <a href={`mailto:${t.contact.email}`}>Email</a>
+            </div>
+
+            <div className="mobile-copyright">
+              © 2026 Tatsuya-PortfolioOS
+            </div>
+          </div>
+        </main>
+
+        <nav className="mobile-bottom-nav">
+          {pages.map((p) => (
+            <button
+              key={p}
+              onClick={() => {
+                setCurrentPage(p);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={currentPage === p ? "active" : ""}
+            >
+              ~/{p.substring(0, 3)}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </>
+  );
+}
+
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <LanguageProvider>
-      <AppContent />
+      {isMobile ? <MobileAppContent /> : <AppContent />}
     </LanguageProvider>
   );
 }
