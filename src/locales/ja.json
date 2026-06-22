@@ -3,26 +3,9 @@
   "role": "フルスタックエンジニア",
   "bio": "Reactを使用したアプリケーション構築とArduinoを使用したIoTシステムの構築。メモリセーフなシステムと分散アーキテクチャ",
   "skills": {
-    "languages": [
-      "C++",
-      "TypeScript",
-      "JavaScript",
-      "Rust",
-      "Go",
-      "Python"
-    ],
-    "frontend": [
-      "React",
-      "Vite",
-      "Next.js",
-      "Hono",
-      "Tailwind CSS"
-    ],
-    "backend": [
-      "Node.js",
-      "Vite",
-      "MySQL"
-    ],
+    "languages": ["C++", "TypeScript", "JavaScript", "Rust", "Go", "Python"],
+    "frontend": ["React", "Vite", "Next.js", "Hono", "Tailwind CSS"],
+    "backend": ["Node.js", "Vite", "Hono"],
     "Infrastructure": [
       "Cloudflare",
       "Firebase",
@@ -39,16 +22,17 @@
       "tech": [
         "React",
         "TypeScript",
-        "Vite"
+        "Vite",
+        "Hono",
+        "Cloudflare Workers",
+        "Cloudflare R2"
       ],
       "desc": "ReactとCloudflare R2ストレージを使用した音楽アプリケーション",
       "link": "https://github.com/TatsuyaM2667/FluxAudio-MusicApp"
     },
     {
       "name": "Rust_OS",
-      "tech": [
-        "Rust"
-      ],
+      "tech": ["Rust(no_std)"],
       "desc": "Rust製のOS",
       "link": "https://github.com/TatsuyaM2667/Rust_os"
     }
@@ -74,7 +58,7 @@
   "education": [
     {
       "period": "2023 - 2026",
-      "degree": "高校卒業",
+      "degree": "High School Diploma",
       "institution": "法政大学第二高等学校"
     },
     {
@@ -90,12 +74,7 @@
       "desc": "物理部CTOとして受賞。"
     }
   ],
-  "hobbies": [
-    "散歩",
-    "読書",
-    "旅行",
-    "登山"
-  ],
+  "hobbies": ["散歩", "読書", "旅行", "登山"],
   "contact": {
     "github": "https://github.com/TatsuyaM2667",
     "LinkedIn": "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",

@@ -19,7 +19,14 @@
   "projects": [
     {
       "name": "Music App",
-      "tech": ["React", "TypeScript", "Vite"],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Hono",
+        "Cloudflare Workers",
+        "Cloudflare R2"
+      ],
       "desc": "Music application utilising React and Cloudflare R2 storage.",
       "link": "https://github.com/TatsuyaM2667/FluxAudio-MusicApp"
     },
@@ -72,6 +79,6 @@
     "github": "https://github.com/TatsuyaM2667",
     "LinkedIn": "https://www.linkedin.com/in/tatsuya-miura-1bb48339a/",
     "email": "tatsuyamiura2667@gmail.com",
-    "orcid": "https://orcid.org/0000-0000-0000-0000"
+    "orcid": "https://orcid.org/0009-0007-5480-2657"
   }
 }
