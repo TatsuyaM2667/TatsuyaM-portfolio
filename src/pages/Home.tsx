@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   const { t, language } = useLanguage();
 
   const archLogo = [
-    "-`",
+    "                    -`",
     "                  .o+`",
     "                 `ooo/",
     "                `+oooo:",
