@@ -1,5 +1,16 @@
 export async function onRequest(context) {
   const { env } = context;
+  // Ensure KV binding exists
+  if (!env.SPOTIFY_TOKENS) {
+    return new Response(
+      JSON.stringify({
+        connected: false,
+        error: "Server misconfiguration: SPOTIFY_TOKENS KV not bound",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const tokensRaw = await env.SPOTIFY_TOKENS.get("tokens");
   if (!tokensRaw)
     return new Response(JSON.stringify({ connected: false }), {
