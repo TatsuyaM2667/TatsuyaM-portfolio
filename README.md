@@ -212,5 +212,62 @@ This portfolio is optimized for:
 
 ---
 
+## 🟢 Spotify "Now Playing" (optional)
+
+This project includes an optional small helper server to show your current Spotify playback (similar to Discord's Spotify presence).
+
+How it works (overview):
+
+- A tiny Express server handles Spotify OAuth (Authorization Code flow) and stores a refresh token locally.
+- The frontend polls `/api/now-playing` to fetch the current track and shows it in the Home page.
+
+Setup (local development)
+
+1. Create a Spotify Developer App at https://developer.spotify.com/dashboard and add a Redirect URI, e.g. `http://localhost:8888/auth/callback`.
+2. Copy `server/.env.example` -> `server/.env` and fill `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` (and optionally `SPOTIFY_REDIRECT_URI` / `PORT`).
+3. Install deps and run the helper server:
+
+```bash
+npm install
+npm run server
+```
+
+4. In a separate terminal start the frontend dev server:
+
+```bash
+npm run dev
+```
+
+5. Open the site (`http://localhost:5173`), or click the "Connect" button in the Spotify card to authorize. The server will save tokens to `server/.spotify_tokens.json` (this file is gitignored).
+
+Notes & deployment
+
+- The helper server listens on `PORT` (default `8888`). Vite dev server is configured to proxy `/api` and `/auth` to the helper server for convenience.
+- For production, if you prefer a small external server you can deploy the `server/` app (example: DigitalOcean / Railway / Render / Fly). If you host on Cloudflare Pages you can instead use the included Pages Functions (see below).
+- Do NOT commit your client secret or the `.spotify_tokens.json` file.
+
+### Deploying on Cloudflare Pages (recommended for your setup)
+
+This repository includes a Cloudflare Pages Functions implementation to run the Spotify OAuth + now-playing endpoints serverlessly within Pages:
+
+- Files live under `functions/api/...` and expose endpoints like `/api/now-playing`, `/api/status`, `/api/auth/login`, `/api/auth/callback` on your Pages site.
+- You must create a Workers KV namespace for token storage and bind it to the Pages Functions as `SPOTIFY_TOKENS` in the Pages dashboard.
+- Add the following Environment Variables in your Pages project settings (Settings → Environment variables & secrets):
+  - `SPOTIFY_CLIENT_ID`
+  - `SPOTIFY_CLIENT_SECRET`
+  - (optional) `SPOTIFY_REDIRECT_URI` — if not set, the function will use `https://<your-site>/api/auth/callback` automatically
+
+Steps:
+1. In Spotify Developer Dashboard add a Redirect URI such as `https://tatsuyam-portfolio.pages.dev/api/auth/callback` (replace with your Pages domain if different).
+2. In Cloudflare Dashboard → Pages → your project → Functions → create/bind a Workers KV namespace and call it e.g. `SPOTIFY_TOKENS` (the code expects this binding name).
+3. Add the two secrets `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` in Pages → Settings → Environment variables & secrets.
+4. Deploy the site (push to your Git provider). The functions will be available under `https://<your-pages-domain>/api/...`.
+
+Behavior on Pages:
+- Open your site and click the Connect button on the Spotify card (it points to `/api/auth/login`). This redirects to Spotify's auth screen. After authorizing, Spotify will redirect back to `/api/auth/callback` which stores tokens in KV.
+- The frontend queries `/api/now-playing` (same origin), which the function serves using stored tokens.
+
+---
+
 **Last Updated**: June 2026  
 **Built with ❤️ by Tatsuya M**

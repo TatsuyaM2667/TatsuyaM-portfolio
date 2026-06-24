@@ -1,5 +1,6 @@
 import React from "react";
 import Typewriter from "../components/Typewriter";
+import NowPlaying from "../components/NowPlaying";
 import { useLanguage } from "../hooks/useLanguage";
 
 const Home: React.FC = () => {
@@ -72,6 +73,7 @@ const Home: React.FC = () => {
             <Typewriter text={t.role} delay={1000} speed={40} />
           </p>
         </div>
+        <NowPlaying />
       </div>
 
       <section>
