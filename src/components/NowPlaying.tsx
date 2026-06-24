@@ -58,21 +58,11 @@ const NowPlaying: React.FC = () => {
       }
     };
 
-    // Listen for the popup to notify us after successful auth (callback posts a message)
-    const onMessage = (ev: MessageEvent) => {
-      const d = ev.data as Record<string, unknown> | undefined;
-      if (d && d.type === "spotify_connected") {
-        fetchNow();
-      }
-    };
-    window.addEventListener("message", onMessage);
-
     fetchNow();
     const id = setInterval(fetchNow, POLL_MS);
     return () => {
       mounted = false;
       clearInterval(id);
-      window.removeEventListener("message", onMessage);
     };
   }, []);
 
@@ -88,14 +78,6 @@ const NowPlaying: React.FC = () => {
             <div style={{ fontWeight: 700 }}>Spotify</div>
             <div style={{ color: "var(--accent)" }}>Not connected</div>
           </div>
-          <a
-            className="connect"
-            href="/auth/login"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Connect
-          </a>
         </div>
       );
     }
@@ -133,14 +115,6 @@ const NowPlaying: React.FC = () => {
               Not currently playing
             </div>
           </div>
-          <a
-            className="connect"
-            href="/auth/login"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Reconnect
-          </a>
         </div>
       );
     }

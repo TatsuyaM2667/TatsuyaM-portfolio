@@ -46,15 +46,21 @@ export async function onRequest(context) {
     expires_at: Date.now() + (data.expires_in || 3600) * 1000,
   };
 
-  // store tokens in KV (binding name: SPOTIFY_TOKENS) if available
-  if (env.SPOTIFY_TOKENS) {
-    try {
-      await env.SPOTIFY_TOKENS.put("tokens", JSON.stringify(tokens));
-    } catch (e) {
-      console.error("Failed to save tokens to KV", e);
+  // Only persist tokens if the incoming state matches the admin key (if configured)
+  const incomingState = url.searchParams.get("state");
+  const adminKey = env.SPOTIFY_ADMIN_KEY;
+  const shouldPersist = adminKey && incomingState && adminKey === incomingState;
+
+  if (shouldPersist) {
+    if (env.SPOTIFY_TOKENS) {
+      try {
+        await env.SPOTIFY_TOKENS.put("tokens", JSON.stringify(tokens));
+      } catch (e) {
+        console.error("Failed to save tokens to KV", e);
+      }
+    } else {
+      console.warn("SPOTIFY_TOKENS KV not bound; tokens will not be persisted");
     }
-  } else {
-    console.warn("SPOTIFY_TOKENS KV not bound; tokens will not be persisted");
   }
 
   // small success page, close window
@@ -64,10 +70,10 @@ export async function onRequest(context) {
     <head><meta charset="utf-8"><title>Spotify connected</title></head>
     <body>
       <h2>Spotify connected. You can close this window.</h2>
-      ${env.SPOTIFY_TOKENS ? "" : '<p style="color:orange">Note: server KV not configured, tokens will not be saved. See project README for Cloudflare Pages KV setup.</p>'}
+      ${env.SPOTIFY_TOKENS && shouldPersist ? "" : '<p style="color:orange">Note: tokens were not saved. Make sure you used the admin key or that KV is configured.</p>'}
       <script>
         if (window.opener) {
-          try { window.opener.postMessage({ type: 'spotify_connected' }, '*'); } catch (e) {}
+          try { window.opener.postMessage({ type: ${shouldPersist ? "'spotify_connected'" : "'spotify_authorized'"} }, '*'); } catch (e) {}
         }
       </script>
     </body>

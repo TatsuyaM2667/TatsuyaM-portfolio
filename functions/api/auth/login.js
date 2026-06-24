@@ -16,6 +16,9 @@ export async function onRequest(context) {
     "user-read-private",
   ].join(" ");
 
+  const reqUrl = new URL(context.request.url);
+  const adminParam = reqUrl.searchParams.get("admin");
+
   const params = new URLSearchParams({
     response_type: "code",
     client_id: CLIENT_ID,
@@ -23,6 +26,11 @@ export async function onRequest(context) {
     redirect_uri: REDIRECT_URI,
     show_dialog: "true",
   });
+
+  // pass through admin key in the state param so callback can validate it
+  if (adminParam) {
+    params.append("state", adminParam);
+  }
 
   return Response.redirect(
     `https://accounts.spotify.com/authorize?${params.toString()}`,
