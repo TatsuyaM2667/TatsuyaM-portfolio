@@ -67,20 +67,10 @@ const NowPlaying: React.FC = () => {
   }, []);
 
   const renderContent = () => {
-    if (loading) return <div className="now-playing">Loading...</div>;
-    if (error) return <div className="now-playing">Error: {error}</div>;
-    if (!data) return <div className="now-playing">Not connected</div>;
+    // 非表示条件：読み込み中、エラー、データ無し、もしくは接続されていない
+    if (loading || error || !data || !data.connected) return null;
 
-    if (!data.connected) {
-      return (
-        <div className="now-playing">
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700 }}>Spotify</div>
-            <div style={{ color: "var(--accent)" }}>Not connected</div>
-          </div>
-        </div>
-      );
-    }
+    // At this point we have data and it's connected
 
     const item = data.item || lastItem;
     if (!data.is_playing || !item) {
