@@ -11,6 +11,11 @@ export async function onRequest(context) {
     );
   }
 
+  const CACHE_KEY = "now_playing_cache_v1";
+  const CACHE_TTL = env.SPOTIFY_CACHE_TTL
+    ? parseInt(env.SPOTIFY_CACHE_TTL, 10)
+    : 30; // seconds (can override with env SPOTIFY_CACHE_TTL)
+
   const tokensRaw = await env.SPOTIFY_TOKENS.get("tokens");
   if (!tokensRaw)
     return new Response(JSON.stringify({ connected: false }), {
@@ -24,6 +29,29 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ connected: false }), {
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  // Try cached result first to avoid hitting Spotify frequently
+  try {
+    const cachedRaw = await env.SPOTIFY_TOKENS.get(CACHE_KEY);
+    if (cachedRaw) {
+      const cached = JSON.parse(cachedRaw);
+      if (
+        cached &&
+        cached.ts &&
+        Date.now() - cached.ts < CACHE_TTL * 1000 &&
+        cached.data
+      ) {
+        return new Response(
+          JSON.stringify({ connected: true, ...cached.data }),
+          {
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+    }
+  } catch (e) {
+    // ignore cache errors
   }
 
   // refresh if expired or missing
@@ -76,7 +104,7 @@ export async function onRequest(context) {
     }
   }
 
-  // fetch currently playing
+  // fetch currently playing with fallbacks; store result in payload
   try {
     const resp = await fetch(
       "https://api.spotify.com/v1/me/player/currently-playing",
@@ -84,6 +112,8 @@ export async function onRequest(context) {
         headers: { Authorization: `Bearer ${tokens.access_token}` },
       },
     );
+
+    let payload = null;
 
     // No active playback - fall back to recently played
     if (resp.status === 204) {
@@ -113,17 +143,12 @@ export async function onRequest(context) {
           { headers: { "Content-Type": "application/json" } },
         );
       // normalize to same shape as currently-playing
-      const mapped = {
+      payload = {
         is_playing: false,
         progress_ms: null,
         item: item,
       };
-      return new Response(JSON.stringify({ connected: true, ...mapped }), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    if (!resp.ok) {
+    } else if (!resp.ok) {
       // Try fallback: if forbidden or other error, attempt recently-played
       const txt = await resp.text();
       try {
@@ -137,24 +162,37 @@ export async function onRequest(context) {
             recent.items && recent.items[0] && recent.items[0].track
               ? recent.items[0].track
               : null;
-          if (item)
-            return new Response(
-              JSON.stringify({ connected: true, is_playing: false, item }),
-              { headers: { "Content-Type": "application/json" } },
-            );
+          if (item) {
+            payload = { is_playing: false, item };
+          }
         }
       } catch (_) {
         // ignore
       }
 
-      return new Response(JSON.stringify({ connected: true, error: txt }), {
-        status: resp.status,
-        headers: { "Content-Type": "application/json" },
-      });
+      if (!payload) {
+        return new Response(JSON.stringify({ connected: true, error: txt }), {
+          status: resp.status,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    } else {
+      const data = await resp.json();
+      payload = data;
     }
 
-    const data = await resp.json();
-    return new Response(JSON.stringify({ connected: true, ...data }), {
+    // store cache (best-effort)
+    try {
+      await env.SPOTIFY_TOKENS.put(
+        CACHE_KEY,
+        JSON.stringify({ ts: Date.now(), data: payload }),
+        { expirationTtl: CACHE_TTL },
+      );
+    } catch (e) {
+      // ignore cache write errors
+    }
+
+    return new Response(JSON.stringify({ connected: true, ...payload }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
